@@ -26,10 +26,10 @@ Additionally, the function :code:`read_pdb()` can be used to read PDB files.
    mc = chapi.molecules_container_t(True)
 
    # read PDB file
-   imol_pdb = mc.read_coordinates("/data/tutorial-modern.pdb")  
+   imol_pdb = mc.read_coordinates("tutorial-modern.pdb")  
    
    # read mmCIF file
-   imol_mmcif = mc.read_coordinates("/data/tutorial-modern.cif")   
+   imol_mmcif = mc.read_coordinates("tutorial-modern.cif")   
 
 
 MTZ and Map Files
@@ -40,7 +40,7 @@ MTZ file format can be read by using the :code:`read_mtz()` function.
 
 .. code-block:: python
 
-   imol_mtz = mc.read_mtz("/data/rnase-1.8-all_refmac1.mtz", "FWT", "PHWT", "W", False, False)
+   imol_mtz = mc.read_mtz("rnase-1.8-all_refmac1.mtz", "FWT", "PHWT", "W", False, False)
 
 The latest two arguments are: 
 
@@ -55,7 +55,7 @@ EM maps are typically in MRC/CCP4 map format
 
 .. code-block:: python
    
-   imol_map = mc.read_ccp4_map("/data/test-molecule-container-test-data/emd_16890.map", False)
+   imol_map = mc.read_ccp4_map("emd_16890.map", False)
 
 The latest argument is :code:`is_a_difference_map` (bool):
 
@@ -69,16 +69,23 @@ and map files (MTZ and map) respectively.
 .. code-block:: python
 
    # read mmCIF file
-   imol_mmcif = mc.read_coordinates("/data/tutorial-modern.cif") 
+   imol_mmcif = mc.read_coordinates("tutorial-modern.cif") 
 
    # write mmCIF file
    imol_mmcif_new = mc.write_coordinates(imol_mmcif, "tutorial-modern-new.cif")
 
    # read MTZ file
-   imol_mtz = mc.read_mtz("/data/rnase-1.8-all_refmac1.mtz", "FWT", "PHWT", "W", False, False)
+   imol_mtz = mc.read_mtz("rnase-1.8-all_refmac1.mtz", "FWT", "PHWT", "W", False, False)
 
    # write MTZ file
    imol_mtz_new = mc.write_map(imol_mtz, "rnase-1.8-all_refmac1_new.mtz")
+
+   # read map file
+   imol_map = mc.read_ccp4_map("emd_16890.map", False)
+
+   # write map file
+   imol_map_new = mc.write_map(imol_map, "emd_16890_new.map")
+
 
 Molecular Models
 ##################
@@ -164,7 +171,6 @@ The following functions return information about macromolecular models.
                   Sheet info: 
    ------------------------------------------------
    ------------------------------------------------
-
 
    >>> compound_lines = header_info.compound_lines
    >>> journal_lines  = header_info.journal_lines
