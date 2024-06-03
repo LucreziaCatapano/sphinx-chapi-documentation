@@ -164,7 +164,7 @@ The following functions return information about macromolecular models.
                   Sheet info: 
    ------------------------------------------------
    ------------------------------------------------
-   INFO:: There are 8 helices and 0 sheets
+
 
    >>> compound_lines = header_info.compound_lines
    >>> journal_lines  = header_info.journal_lines
