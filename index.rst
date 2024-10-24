@@ -11,6 +11,9 @@ This is unlike many other functions of Python modules, which return a Python rep
 .. toctree::
    :maxdepth: 2
 
-   Introduction <self>
+   Introduction<self>
    read_coordinates.rst
+   api.rst
+
+
 

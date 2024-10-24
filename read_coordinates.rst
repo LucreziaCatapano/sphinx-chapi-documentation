@@ -1,7 +1,7 @@
 Reading Files
 ##################
 
-.. _read_coordinates:
+
 
 Coordinate Files
 ================================================================
@@ -182,20 +182,20 @@ The following functions return information about macromolecular models.
    >>> for l in journal_lines:
            print("jounal_line:", l)
 
-   author_line: T.LI,G.N.PHILLIPS JR.                                                 
-   compound_line: MOL_ID: 1;                                                            
-   compound_line:  MOLECULE: MYOGLOBIN (CARBONMONOXY);                                  
-   compound_line:  CHAIN: A;                                                            
-   compound_line:  ENGINEERED: YES;                                                     
-   compound_line:  MUTATION: YES                                                        
-   jounal_line:   AUTH   X.ZHAO,K.VYAS,B.D.NGUYEN,K.RAJARATHNAM,G.N.LA MAR,T.LI,      
-   jounal_line:   AUTH 2 G.N.PHILLIPS,R.F.EICH,J.S.OLSON,J.LING                       
-   jounal_line:   TITL   A DOUBLE MUTANT OF SPERM WHALE MYOGLOBIN MIMICS THE          
-   jounal_line:   TITL 2 STRUCTURE AND FUNCTION OF ELEPHANT MYOGLOBIN.                
-   jounal_line:   REF    J.BIOL.CHEM.                  V. 270 20763 1995              
-   jounal_line:   REFN                   ISSN 0021-9258                               
-   jounal_line:   PMID   7657659                                                      
-   jounal_line:   DOI    10.1074/JBC.270.35.20781           
+   author_line: T.LI,G.N.PHILLIPS JR.
+   compound_line: MOL_ID: 1;
+   compound_line:  MOLECULE: MYOGLOBIN (CARBONMONOXY);
+   compound_line:  CHAIN: A;
+   compound_line:  ENGINEERED: YES;
+   compound_line:  MUTATION: YES
+   jounal_line:   AUTH   X.ZHAO,K.VYAS,B.D.NGUYEN,K.RAJARATHNAM,G.N.LA MAR,T.LI,
+   jounal_line:   AUTH 2 G.N.PHILLIPS,R.F.EICH,J.S.OLSON,J.LING
+   jounal_line:   TITL   A DOUBLE MUTANT OF SPERM WHALE MYOGLOBIN MIMICS THE
+   jounal_line:   TITL 2 STRUCTURE AND FUNCTION OF ELEPHANT MYOGLOBIN.
+   jounal_line:   REF    J.BIOL.CHEM.                  V. 270 20763 1995
+   jounal_line:   REFN                   ISSN 0021-9258
+   jounal_line:   PMID   7657659
+   jounal_line:   DOI    10.1074/JBC.270.35.20781
 
 Molecular Editing
 ================================================================
