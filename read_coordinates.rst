@@ -1,7 +1,7 @@
 Reading Files
 ##################
 
-
+.. _read_coordinates:
 
 Coordinate Files
 ================================================================
@@ -121,7 +121,7 @@ The following functions return information about macromolecular models.
 
 * :code:`get_residue_names_with_no_dictionary()`:
 
-* :code:`get_residues_with_missing_atoms()`:
+* :code:`residues_with_missing_atoms()`:
 
 * :code:`get_residues_near_residue()`:
 

@@ -18,7 +18,7 @@ sys.path.insert(0, os.path.abspath('.'))
 
 # -- Project information -----------------------------------------------------
 
-project = 'Libcoot Chapi Documentation'
+project = 'Coot API Documentation'
 copyright = '2024, Lucrezia Catapano & Paul Emsley'
 author = 'Lucrezia Catapano & Paul Emsley'
 
@@ -41,10 +41,15 @@ extensions = [
     'sphinx.ext.doctest',
     'sphinx.ext.inheritance_diagram']
 
-autodoc_default_options = {
-    'members': True,}
+# autodoc_default_options = {
+#     'undoc-members': True,
+#     'private-members': True,
+#     'inherited-members': True,
+#     'show-inheritance': True,
+# }
+#autosummary_generate = True 
 
-autoclass_content = 'both'
+autoclass_content = 'class'
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
 
