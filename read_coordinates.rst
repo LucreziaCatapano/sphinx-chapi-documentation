@@ -9,7 +9,7 @@ Coordinate Files
 
 Chapi supports the following coordinate file formats:
 
-    * mmCIF (PDBx/mmCIF),
+    * mmCIF (PDBx/mmCIF)
     * PDB
     * SHELXL
     * MOL file
@@ -17,7 +17,7 @@ Chapi supports the following coordinate file formats:
 
 
 The :code:`read_coordinates()` is a function provided by the :code:`molecules_container_t` class of the :code:`chapi` module, designed to read files in different format, including mmCIF or PDB format.
-Additionally, the function :code:`read_pdb()` can be used to read PDB files.
+Additionally, the function :code:`read_pdb()` can be used as well to read PDB and mmCIF files.
 
 .. code-block:: python
 
@@ -26,10 +26,10 @@ Additionally, the function :code:`read_pdb()` can be used to read PDB files.
    mc = chapi.molecules_container_t(True)
 
    # read PDB file
-   imol_pdb = mc.read_coordinates("tutorial-modern.pdb")  
-   
+   imol_pdb = mc.read_coordinates("tutorial-modern.pdb")
+
    # read mmCIF file
-   imol_mmcif = mc.read_coordinates("tutorial-modern.cif")   
+   imol_mmcif = mc.read_coordinates("tutorial-modern.cif")
 
 
 MTZ and Map Files
@@ -42,11 +42,11 @@ MTZ file format can be read by using the :code:`read_mtz()` function.
 
    imol_mtz = mc.read_mtz("rnase-1.8-all_refmac1.mtz", "FWT", "PHWT", "W", False, False)
 
-The latest two arguments are: 
+The latest two arguments are:
 
-* :code:`use_weight` (bool):
+* :code:`use_weight` (bool): the flag to use the map weight
 
-* :code:`is_a_difference_map` (bool):
+* :code:`is_a_difference_map` (bool): the flag to set the map as a difference map
 
 MRC/CCP4 Maps
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -54,10 +54,10 @@ MRC/CCP4 Maps
 EM maps are typically in MRC/CCP4 map format
 
 .. code-block:: python
-   
+
    imol_map = mc.read_ccp4_map("emd_16890.map", False)
 
-The latest argument is :code:`is_a_difference_map` (bool):
+The latest argument is :code:`is_a_difference_map` (bool): the flag to set the map as a difference map
 
 Writing Files
 ##################
@@ -69,7 +69,7 @@ and map files (MTZ and map) respectively.
 .. code-block:: python
 
    # read mmCIF file
-   imol_mmcif = mc.read_coordinates("tutorial-modern.cif") 
+   imol_mmcif = mc.read_coordinates("tutorial-modern.cif")
 
    # write mmCIF file
    imol_mmcif_new = mc.write_coordinates(imol_mmcif, "tutorial-modern-new.cif")
@@ -93,37 +93,37 @@ Molecular Models
 Molecular Information
 ================================================================
 
-The following functions return information about macromolecular models.
+The following functions return information about macromolecular models. For more details see the **Python API** - `Molecular Information <https://www.mrc-lmb.cam.ac.uk/lucrezia/libcootapi-documentation/api.html#molecular-information>`_ section.
 
-* :code:`get_molecule_diameter()`: 
+* :code:`get_molecule_diameter()`
 
-* :code:`get_number_of_atoms()`:
+* :code:`get_number_of_atoms()`
 
-* :code:`get_number_of_hydrogen_atoms()`:
+* :code:`get_number_of_hydrogen_atoms()`
 
-* :code:`get_cell()`: 
+* :code:`get_cell()`
 
-* :code:`get_symmetry()`: 
+* :code:`get_symmetry()`
 
-* :code:`get_hb_type()`: 
+* :code:`get_hb_type()`
 
 **Chains**
 
-* :code:`get_chains_in_model()`:
+* :code:`get_chains_in_model()`
 
-* :code:`get_single_letter_codes_for_chain()`:
+* :code:`get_single_letter_codes_for_chain()`
 
-* :code:`get_ncs_related_chains()`:
+* :code:`get_ncs_related_chains()`
 
 **Residue**
 
-* :code:`get_residue_name()`:
+* :code:`get_residue_name()`
 
-* :code:`get_residue_names_with_no_dictionary()`:
+* :code:`get_residue_names_with_no_dictionary()`
 
-* :code:`residues_with_missing_atoms()`:
+* :code:`residues_with_missing_atoms()`
 
-* :code:`get_residues_near_residue()`:
+* :code:`get_residues_near_residue()`
 
 
 .. doctest::
@@ -199,7 +199,8 @@ The following functions return information about macromolecular models.
 
 Molecular Editing
 ================================================================
-There are many functions in the api that edit molecules, e.g., adding, deleting and moving the atoms.
+There are many functions in the API that edit molecules, e.g., adding, deleting and moving the atoms.
+More functions are documented in the **Python API** - `Model Manipulation <https://www.mrc-lmb.cam.ac.uk/lucrezia/libcootapi-documentation/api.html#model-manipulation>`_ section.
 
 
 **Example #1: adding water molecules**

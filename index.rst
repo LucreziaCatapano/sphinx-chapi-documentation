@@ -18,6 +18,7 @@ Contents
 
 
    Introduction<self>
+   installation.rst
    read_coordinates.rst
    api.rst
    C++ API <https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/docs/api/html>
