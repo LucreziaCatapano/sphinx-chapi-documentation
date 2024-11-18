@@ -95,6 +95,8 @@ Geometry and Dictionaries
 Model Manipulation
 ----------------------------------------
 
+.. class:: lsq_results_t
+   :noindex:
 
 .. class:: molecules_container_t
    :noindex:
@@ -171,10 +173,13 @@ Model Manipulation
     .. automethod:: replace_fragment
     .. automethod:: SSM_superpose
     .. automethod:: add_lsq_superpose_match
+    .. automethod:: add_lsq_superpose_atom_match
     .. automethod:: clear_lsq_matches
     .. automethod:: lsq_superpose
     .. automethod:: get_lsq_matrix
-    .. automethod:: get_lsq_matrix_internal
+    .. automethod:: transform_map_using_lsq_matrix
+
+
 
 Map Tools
 -----------------------------------------------
