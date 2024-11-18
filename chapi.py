@@ -1,4 +1,5 @@
 class lsq_results_t:
+    pass
 
 class molecules_container_t:
 
