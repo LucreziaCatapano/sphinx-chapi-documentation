@@ -580,6 +580,36 @@ class molecules_container_t:
         :return: a `simple_mesh_t` """
         pass
 
+    def get_residue_CA_position(self, imol: int, cid: str):
+        """ Get the residue CA position
+
+        :param imol:  is the model molecule index 
+
+        :param cid:  is the selection CID e.g "//A/15" (residue 15 of chain A)
+
+        :return: a vector. The length of the vector is 0 on failure, otherwise it is the x,y,z values """
+        pass
+
+    def get_residue_average_position(self, imol: int, cid: str):
+        """ Get the average residue position
+
+        :param imol:  is the model molecule index 
+
+        :param cid:  is the selection CID e.g "//A/15" (residue 15 of chain A)
+
+        :return: a vector. The length of the vector is 0 on failure, otherwise it is the x,y,z values """
+        pass
+
+    def get_residue_sidechain_average_position(self, imol: int, cid: str):
+        """ Get the avarage residue side-chain position
+
+        :param imol:  is the model molecule index 
+
+        :param cid:  is the selection CID e.g "//A/15" (residue 15 of chain A)
+
+        :return: a vector. The length of the vector is 0 on failure, otherwise it is the x,y,z values """
+        pass
+
     def get_number_of_atoms(self, imol: int) -> int:
         """ Get number of atoms
 
@@ -797,6 +827,18 @@ class molecules_container_t:
 
         :return: 1 on successful redo, return 0 on failure """
         return 0
+
+    def get_torsion(self, imol: int, cid: str, atom_names: list):
+        """ Get the torsion of the specified atom in the specified residue
+
+        :param imol:  is the model molecule index 
+
+        :param cid:  is the selection CID, e.g. //A/15 (residue 15 in chain A) 
+
+        :param atom_names:  is a list of atom names, e.g. [" CA ", " CB ", " CG ", " CD1"]
+
+        :return: a pair, the first of which is a succes status (1 success, 0 failure), the second is the torsion in degrees """
+        pass
 
 
 
@@ -1621,7 +1663,7 @@ class molecules_container_t:
 
         :param imol:  is the model molecule index 
 
-        :param atom_spec:  is the atom specifier, atom_spec_t("A", 10, "", "CA", "") 
+        :param atom_spec:  is the atom specifier, atom_spec_t("A", 10, "", " CA ", "") 
 
         :param alt_conf:  is the alternate conformation, e.g. "A" or "B"
 
@@ -1772,7 +1814,7 @@ class molecules_container_t:
 
         :param residue_cid:  is the residue selection CID e.g "//A/15" (residue 15 of chain A) 
 
-        :param moved_atoms:  is a list of the atoms moved in the specified residue, e.g. moved_atom_t("CA", 1, 2, 3) """
+        :param moved_atoms:  is a list of the atoms moved in the specified residue, e.g. moved_atom_t(" CA ", 1, 2, 3) """
         return 0
 
     def new_positions_for_atoms_in_residues(self, imol: int, moved_residues: list) -> int:
@@ -1844,6 +1886,20 @@ class molecules_container_t:
         """ Rotate atoms around torsion
 
         the bond is presumed to be between atom-2 and atom-3. Atom-1 and atom-4 are used to define the absolute torsion angle.
+
+        :param imol:  is the model molecule index 
+
+        :param residue_cid:  is the residue selection CID e.g "//A/15" (residue 15 of chain A) 
+
+        :param atom_name_1:  e.g. " CA " 
+
+        :param atom_name_2:  e.g. " CB " 
+
+        :param atom_name_3:  e.g. " CG " 
+
+        :param atom_name_4:  e.g. " CD1" 
+
+        :param torsion_angle:  e.g. 12.3 degrees
 
         :return: status 1 if successful, 0 if not. """
         return 0
@@ -2752,7 +2808,7 @@ class molecules_container_t:
         """ Jiggle-Fit Ligand
 
         :param imol:  is the model molecule index 
- 
+
         :param res_spec:  is the residue specifier, e.g. residue_spec_t("A", 10, "") 
 
         :param n_trials:  is the number of trials, if n_trials is 0, then a sensible default value will be used. 
@@ -2901,7 +2957,13 @@ class molecules_container_t:
         """ Function for Blender interface. """
 
     def make_mesh_for_molecular_representation_for_blender(self, imol: int, cid: str, colour_scheme: str, style: str, secondary_structure_usage_flag: int) -> None:
-        """ Function for Blender interface. """
+        """ Function for Blender interface
+
+        Make an (internal) mesh
+
+        This function doesn't return a value, instead it stores a `blender_mesh_t` blender_mesh in this model. One then (shortly later) uses get_triangles_for_blender(imol) (etc) to import this mesh into blender.
+
+        @modifies internal state to fill the internal `blender_mesh` object """
 
     def make_mesh_for_gaussian_surface_for_blender(self, imol: int, sigma: float, contour_level: float, box_radius: float, grid_scale: float, b_factor: float) -> None:
         """ Function for Blender interface. """

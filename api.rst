@@ -55,6 +55,10 @@ Molecular Information
     .. automethod:: get_residue_name
     .. automethod:: get_residue_names_with_no_dictionary
     .. automethod:: get_residues_near_residue
+    .. automethod:: get_torsion
+    .. automethod:: get_residue_CA_position
+    .. automethod:: get_residue_average_position
+    .. automethod:: get_residue_sidechain_average_position
     .. automethod:: residues_with_missing_atoms
     .. automethod:: get_number_of_atoms
     .. automethod:: get_number_of_hydrogen_atoms
@@ -63,6 +67,7 @@ Molecular Information
     .. automethod:: get_hb_type
     .. automethod:: get_cell
     .. automethod:: get_symmetry
+
 
 
 Geometry and Dictionaries
@@ -178,6 +183,7 @@ Model Manipulation
     .. automethod:: lsq_superpose
     .. automethod:: get_lsq_matrix
     .. automethod:: transform_map_using_lsq_matrix
+    .. automethod:: rotate_around_bond
 
 
 

@@ -24,4 +24,9 @@ Contents
    C++ API <https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/docs/api/html>
 
 
+Indices and tables
+==================
 
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
