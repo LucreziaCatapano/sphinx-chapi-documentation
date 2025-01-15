@@ -19,15 +19,16 @@ Basics Utilities
     .. automethod:: undo
     .. automethod:: redo
 
+
 Reading and Writing
 ----------------------------------------
 
 .. class:: molecules_container_t
    :noindex:
 
-
     .. automethod:: read_coordinates
     .. automethod:: read_pdb
+    .. automethod:: read_small_molecule_cif
     .. automethod:: read_mtz
     .. automethod:: auto_read_mtz
     .. automethod:: read_ccp4_map
@@ -38,10 +39,8 @@ Reading and Writing
 Molecular Information
 ---------------------------------------------------
 
-
 .. class:: molecules_container_t
    :noindex:
-
 
     .. automethod:: get_header_info
     .. automethod:: get_number_of_molecules
@@ -60,6 +59,7 @@ Molecular Information
     .. automethod:: get_residue_average_position
     .. automethod:: get_residue_sidechain_average_position
     .. automethod:: residues_with_missing_atoms
+    .. automethod:: get_missing_residue_ranges
     .. automethod:: get_number_of_atoms
     .. automethod:: get_number_of_hydrogen_atoms
     .. automethod:: get_active_atom
@@ -67,16 +67,14 @@ Molecular Information
     .. automethod:: get_hb_type
     .. automethod:: get_cell
     .. automethod:: get_symmetry
-
+    .. automethod:: get_mutation_info
 
 
 Geometry and Dictionaries
 ----------------------------------------------------
 
-
 .. class:: molecules_container_t
    :noindex:
-
 
     .. automethod:: geometry_init_standard
     .. automethod:: non_standard_residue_types_in_model
@@ -95,6 +93,7 @@ Geometry and Dictionaries
     .. automethod:: get_acedrg_atom_types
     .. automethod:: get_acedrg_atom_types_for_ligand
     .. automethod:: get_dictionary_conformers
+    .. automethod:: get_SMILES_for_residue_type
 
 
 Model Manipulation
@@ -105,7 +104,6 @@ Model Manipulation
 
 .. class:: molecules_container_t
    :noindex:
-
 
     .. automethod:: replace_molecule_by_model_from_file
     .. automethod:: split_multi_model_molecule
@@ -145,16 +143,17 @@ Model Manipulation
     .. automethod:: delete_literal_using_cid
     .. automethod:: add_terminal_residue_directly
     .. automethod:: add_terminal_residue_directly_using_cid
-    .. automethod:: add_terminal_residue_directly_using_bucca_ml_growing_using_cid
-    .. automethod:: add_terminal_residue_directly_using_bucca_ml_growing
     .. automethod:: set_add_waters_water_to_protein_distance_lim_min
     .. automethod:: set_add_waters_water_to_protein_distance_lim_max
     .. automethod:: set_add_waters_variance_limit
     .. automethod:: set_add_waters_sigma_cutoff
     .. automethod:: add_waters
+    .. automethod:: flood
     .. automethod:: add_hydrogen_atoms
     .. automethod:: delete_hydrogen_atoms
     .. automethod:: add_alternative_conformation
+    .. automethod:: change_alt_locs
+    .. automethod:: split_residue_using_map
     .. automethod:: fill_partial_residue
     .. automethod:: fill_partial_residues
     .. automethod:: fill_partial_residue_using_cid
@@ -166,6 +165,7 @@ Model Manipulation
     .. automethod:: side_chain_180
     .. automethod:: jed_flip
     .. automethod:: move_molecule_to_new_centre
+    .. automethod:: copy_molecule
     .. automethod:: copy_fragment_using_cid
     .. automethod:: copy_fragment_for_refinement_using_cid
     .. automethod:: copy_fragment_using_residue_range
@@ -184,16 +184,13 @@ Model Manipulation
     .. automethod:: get_lsq_matrix
     .. automethod:: transform_map_using_lsq_matrix
     .. automethod:: rotate_around_bond
-
-
+    
 
 Map Tools
 -----------------------------------------------
 
-
 .. class:: molecules_container_t
    :noindex:
-
 
     .. automethod:: set_imol_refinement_map
     .. automethod:: is_valid_map_molecule
@@ -237,13 +234,12 @@ Map Tools
     .. automethod:: get_map_contours_mesh_using_other_map_for_colours
     .. automethod:: set_map_colour_saturation
 
+
 Structure Factor
 ----------------------
 
-
 .. class:: molecules_container_t
    :noindex:
-
 
     .. automethod:: get_latest_sfcalc_stats
     .. automethod:: get_r_factor_stats
@@ -251,15 +247,17 @@ Structure Factor
     .. automethod:: sfcalc_genmap
     .. automethod:: sfcalc_genmaps_using_bulk_solvent
 
+
 Real Space Refinement
 -----------------------------------
-
 
 .. class:: molecules_container_t
    :noindex:
 
-
     .. automethod:: multiply_residue_temperature_factors
+    .. automethod:: get_median_temperature_factor
+    .. automethod:: set_temperature_factors_using_cid
+    .. automethod:: set_occupancy
     .. automethod:: shift_field_b_factor_refinement
     .. automethod:: refine
     .. automethod:: adjust_refinement_residue_name
@@ -295,13 +293,20 @@ Real Space Refinement
     .. automethod:: clear_extra_restraints
 
 
-Fitting
----------------------------------------------------
-
+Servalcat
+-----------------------------------
 
 .. class:: molecules_container_t
    :noindex:
+   
+   .. automethod:: servalcat_refine_xray
 
+
+Fitting
+---------------------------------------------------
+
+.. class:: molecules_container_t
+   :noindex:
 
     .. automethod:: auto_fit_rotamer
     .. automethod:: rigid_body_fit
@@ -316,10 +321,8 @@ Fitting
 Validation
 --------------------------------------------------------------
 
-
 .. class:: molecules_container_t
    :noindex:
-
 
     .. automethod:: get_rotamer_dodecs
     .. automethod:: get_rotamer_dodecs_instanced
@@ -334,8 +337,9 @@ Validation
     .. automethod:: get_h_bonds
     .. automethod:: get_mesh_for_ligand_validation_vs_dictionary
     .. automethod:: get_ligand_validation_vs_dictionary
+    .. automethod:: get_validation_vs_dictionary_for_selection
     .. automethod:: match_ligand_torsions
-    .. automethod:: match_ligand_position
+    .. automethod:: get_ligand_distortion
     .. automethod:: match_ligand_torsions_and_position
     .. automethod:: match_ligand_torsions_and_position_using_cid
     .. automethod:: get_overlap_dots
@@ -348,22 +352,19 @@ Validation
     .. automethod:: ramachandran_analysis
     .. automethod:: ramachandran_analysis_for_chain
     .. automethod:: peptide_omega_analysis
-    .. automethod:: get_median_temperature_factor
     .. automethod:: get_interesting_places
     .. automethod:: difference_map_peaks
     .. automethod:: pepflips_using_difference_map
     .. automethod:: unmodelled_blobs
     .. automethod:: find_water_baddies
-
+    
 
 
 Molecular Graphics Representation
 ----------------------------------------------------------
 
-
 .. class:: molecules_container_t
    :noindex:
-
 
     .. automethod:: set_draw_missing_residue_loops
     .. automethod:: get_bonds_mesh
@@ -403,10 +404,8 @@ Molecular Graphics Representation
 Testing functions
 -----------------------------------
 
-
 .. class:: molecules_container_t
    :noindex:
-
 
     .. automethod:: testing_start_long_term_job
     .. automethod:: testing_stop_long_term_job
@@ -426,10 +425,8 @@ Blender functions
 These functions are for BlendCoot
 
 
-
 .. class:: molecules_container_t
    :noindex:
-
 
     .. automethod:: make_mesh_for_map_contours_for_blender
     .. automethod:: make_mesh_for_bonds_for_blender

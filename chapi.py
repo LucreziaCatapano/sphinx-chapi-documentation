@@ -1,6 +1,5 @@
 class lsq_results_t:
     pass
-
 class molecules_container_t:
 
     def set_make_backups(self, state: bool) -> None:
@@ -111,6 +110,14 @@ class molecules_container_t:
         It does the same job as `read_coordinates` but has (perhaps) a more familiar name
 
         :param file_name:  is the name of the coordinates file
+
+        :return: the new molecule index on success and -1 on failure """
+        return 0
+
+    def read_small_molecule_cif(self, file_name: str) -> int:
+        """ Read a small molecule CIF file
+
+        :param file_name:  is the cif file-name
 
         :return: the new molecule index on success and -1 on failure """
         return 0
@@ -320,10 +327,19 @@ class molecules_container_t:
 
         :param imol:  is the model molecule index 
 
-        :param residue_cid:  is the atom selection CID e.g "//A/15" (all the atoms in residue 15 of chain A)
+        :param residue_cid:  is the atom selection CID e.g "//A/15" (residue 15 of chain A)
 
         :return: a `coot::acedrg_types_for_residue_t` - which contains a vector/list of bond descriptions. """
         pass
+
+    def set_occupancy(self, imol: int, cid: str, occ_new: float) -> None:
+        """ Set the occupancy for the given atom selection
+
+        :param imol:  is the model molecule index 
+
+        :param cid:  is the atom selection CID e.g "//A/15/OH" (atom OH in residue 15 of chain A) 
+
+        :param occ_new:  is the new occupancy """
 
     def write_png(self, compound_id: str, imol: int, file_name: str) -> None:
         """ Write a PNG for the given compound_id.
@@ -367,23 +383,29 @@ class molecules_container_t:
         :return: a `simple_mesh_t` """
         pass
 
-    def get_bonds_mesh_instanced(self, imol: int, mode: str, against_a_dark_background: bool, bond_width: float, atom_radius_to_bond_width_ratio: float, smoothness_factor: int):
+    def get_bonds_mesh_instanced(self, imol: int, mode: str, against_a_dark_background: bool, bond_width: float, atom_radius_to_bond_width_ratio: float, show_atoms_as_aniso_flag: bool, show_aniso_atoms_as_ortep_flag: bool, draw_hydrogen_atoms_flag: bool, smoothness_factor: int):
         """ Get the instanced bonds mesh.
 
         :param mode:  is "COLOUR-BY-CHAIN-AND-DICTIONARY" - more modes to follow 
 
         :param against_a_dark_background:  allows the bond colours to be relevant for the background. When the background is dark, the colours should (as a rule) be bright and pastelly. When the background is light/white, the colour are darker and more saturated. 
 
-        :param smoothness_factor:  controls the number of triangles used to make the bond cylinders and spheres for the atoms - it rises in powers of 4. 1 is the smallest smoothness_factor, 2 looks nice and 3 is best. Instancing may mean that smoothness factor 3 should be used by default. 
-
         :param bond_width:  is the bond width in Angstroms. 0.12 is a reasonable default value. 
 
-        :param atom_radius_to_bond_width_ratio:  allows the representation of "ball and stick". To do so use a value between 1.5 and 3.0. The ratio for "liquorice" representation is 1.0.
+        :param atom_radius_to_bond_width_ratio:  allows the representation of "ball and stick". To do so use a value between 1.5 and 3.0. The ratio for "liquorice" representation is 1.0. 
+
+        :param show_atoms_as_aniso_flag:  if true, if possible, show the atoms with thermal ellipsoids. 
+
+        :param show_aniso_atoms_as_ortep_flag:  if true, show any anisotropic atoms with ortep style. 
+
+        :param draw_hydrogen_atoms_flag:  if true, bonds to hydrogen atoms should be added. 
+
+        :param smoothness_factor:  controls the number of triangles used to make the bond cylinders and spheres for the atoms - it rises in powers of 4. 1 is the smallest smoothness_factor, 2 looks nice and 3 is best. Instancing may mean that smoothness factor 3 should be used by default. 
 
         :return: a `instanced_mesh_t` """
         pass
 
-    def get_bonds_mesh_for_selection_instanced(self, imol: int, atom_selection_cid: str, mode: str, against_a_dark_background: bool, bond_width: float, atom_radius_to_bond_width_ratio: float, smoothness_factor: int):
+    def get_bonds_mesh_for_selection_instanced(self, imol: int, atom_selection_cid: str, mode: str, against_a_dark_background: bool, bond_width: float, atom_radius_to_bond_width_ratio: float, show_atoms_as_aniso_flag: bool, show_aniso_atoms_as_ortep_flag: bool, draw_hydrogen_atoms_flag: bool, smoothness_factor: int):
         """ As `get_bonds_mesh_instanced` above, but only return the bonds for the atom selection. Typically one would call this with a wider bond width than one would use for standards atoms (all molecule)
 
         :param atom_selection_cid:  e.g. "//A/15" (all the atoms in residue 15 of chain A) 
@@ -682,12 +704,30 @@ class molecules_container_t:
         :return: the residue name, return a blank string on residue not found. """
         return 'a-string'
 
+    def get_SMILES_for_residue_type(self, residue_name: str, imol_enc: int) -> str:
+        """ Get the SMILES string for the give residue type
+
+        :param residue:  3 letter-code/name of the compound-id 
+
+        :param imol_enc:  is the molecule index for the residue type/compound_id
+
+        :return: the SMILES string if the residue type can be found in the dictionary store or the empty string on a failure. """
+        return 'a-string'
+
     def residues_with_missing_atoms(self, imol: int):
         """ Get residues with missing atoms
 
         :param imol:  is the model molecule index
 
         :return: an object that has information about residues without dictionaries and residues with missing atom in the the specified molecule """
+        pass
+
+    def get_missing_residue_ranges(self, imol: int):
+        """ Get missing residue ranges
+
+        :param imol:  is the model molecule index 
+
+        :return: missing residue ranges """
         pass
 
     def get_residues_near_residue(self, imol: int, residue_cid: str, dist: float):
@@ -729,7 +769,7 @@ class molecules_container_t:
 
         :param res_no_mov_end:  the ending residue number in the moving chain 
 
-        :param match_type:  0: all, 1: main, 2: CAs, 3: N, CA, C """
+        :param match_type:  0: all, 1: main, 2: CAs, 3: N, CA, C, 4: N, CA, CB, C """
 
     def add_lsq_superpose_atom_match(self, chain_id_ref: str, res_no_ref: int, atom_name_ref: str, chain_id_mov: str, res_no_mov: int, atom_name_mov: str) -> None:
         """ Superpose using LSQ for a scpecific atom - setup the matches
@@ -839,6 +879,15 @@ class molecules_container_t:
 
         :return: a pair, the first of which is a succes status (1 success, 0 failure), the second is the torsion in degrees """
         pass
+
+    def set_temperature_factors_using_cid(self, imol: int, cid: str, temp_fact: float) -> None:
+        """ Change the B factors
+
+        :param imol:  is the model molecule index 
+
+        :param cid:  is the selection CID, e.g. //A/15 (residue 15 in chain A) 
+
+        :param temp_fact:  is the isotropic ADP/temperature factor, e.g., 22 """
 
 
 
@@ -1532,6 +1581,20 @@ class molecules_container_t:
 
         :return: 1 on successful deletion, return 0 on failure to delete. """
 
+    def change_alt_locs(self, imol: int, cid: str, change_mode: str) -> int:
+        """ Change alternate conformation
+
+        Note that this function only deals with (swaps) alt confs "A" and "B" - any alt-conf other than that is ignored.
+
+        :param imol:  is the model molecule index 
+
+        :param cid:  is the selection CID e.g "//A/15" (residue 15 in chain A) 
+
+        :param change_mode:  is either "residue", "main-chain", "side-chain" or a comma-separated atom-name pairs (e.g "N,CA") - you can (of course) specify just one atom, e.g.: "N".
+
+        :return: the success status (1 is done, 0 means failed to do) """
+        return 0
+
     def add_terminal_residue_directly(self, imol: int, chain_id: str, res_no: int, ins_code: str):
         """ Add a residue onto the end of the chain by fitting to density
 
@@ -1543,7 +1606,7 @@ class molecules_container_t:
 
         :param ins_code:  is the insertion code, e.g. "A"
 
-        :return: 1 on success. """
+        :return: first: 1 on success, second is failure message """
         pass
 
     def add_terminal_residue_directly_using_cid(self, imol: int, cid: str) -> int:
@@ -1551,11 +1614,15 @@ class molecules_container_t:
 
         :param imol:  is the model molecule index 
 
-        :param cid:  is the selection CID e.g "//A/15/OH" (atom OH in residue 15) """
+        :param cid:  is the selection CID e.g "//A/15/OH" (atom OH in residue 15) 
+
+        :return: success status (1 for good, 0 for not done) """
         return 0
 
     def add_terminal_residue_directly_using_bucca_ml_growing_using_cid(self, imol: int, cid: str) -> int:
         """ Add a residue onto the end of the chain by fitting to density using Buccaneer building and cid
+
+        This function has been removed - is is now a noop.
 
         :param imol:  is the model molecule index 
 
@@ -1596,6 +1663,18 @@ class molecules_container_t:
         :param imol:  is the model molecule index 
 
         :param imol_map:  is the map molecule index
+
+        :return: the number of waters added on a success, -1 on failure. """
+        return 0
+
+    def flood(self, imol_model: int, imol_map: int, n_rmsd: float) -> int:
+        """ Flood with dummy atoms
+
+        :param imol:  is the model molecule index 
+
+        :param imol_map:  is the map molecule index 
+
+        :param n_rmsd:  e.g., 4.0
 
         :return: the number of waters added on a success, -1 on failure. """
         return 0
@@ -1765,6 +1844,14 @@ class molecules_container_t:
         :return: the molecule centre """
         pass
 
+    def copy_molecule(self, imol: int) -> int:
+        """ Copy the molecule
+
+        :param imol:  the specified molecule
+
+        :return: the new molecule number """
+        return 0
+
     def copy_fragment_using_cid(self, imol: int, multi_cid: str) -> int:
         """ Copy a fragment given the multi_cid selection string
 
@@ -1922,6 +2009,20 @@ class molecules_container_t:
         :return: -1 on a conflict, 1 on good, 0 on did nothing, return also an information/error message """
         pass
 
+    def split_residue_using_map(self, imol: int, residue_cid: str, imol_diff_map: int) -> int:
+        """ Split a residue into alt-confs
+
+        do nothing if the residue already has alt-confs.
+
+        :param imol:  the modified model 
+
+        :param residue_cid:  the modified residue, the residue selection CID e.g "//A/15" (residue 15 of chain A) 
+
+        :param imol_diff_map:  is the difference map that is used to determine the residue split
+
+        :return: split success status """
+        return 0
+
     def associate_sequence(self, imol: int, name_or_chain_id: str, sequence: str) -> None:
         """ Associate a sequence with a molecule
 
@@ -1939,6 +2040,24 @@ class molecules_container_t:
         :param imol:  is the model molecule index 
 
         :param imol_map:  is the map molecule index """
+
+    def get_sequence_info(self, imol: int):
+        """ Get the sequence information
+
+        :param imol:  is the molecule index 
+
+        :return: the sequence information """
+        pass
+
+    def get_mutation_info(self, imol: int):
+        """ Get mutation information
+
+        The reference sequece is that which has been provided using the 
+
+        :param imol:  is the model molecule index 
+
+        :return: the mismatches/mutations as insertions, deletions or mutations """
+        pass
 
     def refine_residues_using_atom_cid(self, imol: int, cid: str, mode: str, n_cycles: int) -> int:
         """ Refine the residues using cid
@@ -2236,6 +2355,18 @@ class molecules_container_t:
 
         :param imol:  is the model molecule index """
 
+    def servalcat_refine_xray(self, imol: int, imol_map: int, output_prefix: str) -> int:
+        """ External refinement using servalcat, using data that has already been associated.
+
+        :param imol:  is the model molecule index 
+
+        :param imol_map:  is the map molecule index 
+
+        :param output_prefix:  is the prefix of the output filename, e.g. "ref-1"
+
+        :return: the imol of the refined model. """
+        return 0
+
     def get_rotamer_dodecs(self, imol: int):
         """ Get the rotamer dodecs for the model
 
@@ -2343,7 +2474,19 @@ class molecules_container_t:
 
         :param include_non_bonded_contacts:  is the flag to include non bonded contacts
 
-        :return: a vector/list of interesting geometry """
+        :return: a vector/list of interesting geometry - one for each chain involved """
+        pass
+
+    def get_validation_vs_dictionary_for_selection(self, imol: int, selection_cid: str, include_non_bonded_contacts: bool):
+        """ General fragment distortion analysis
+
+        :param imol:  is the model molecule index 
+
+        :param selection_cid:  is the selection CID e.g "//A/15-23" 
+
+        :param include_non_bonded_contacts:  is the flag to include non bonded contacts
+
+        :return: a vector/list of interesting geometry - one for each chain involved """
         pass
 
     def get_ligand_distortion(self, imol: int, ligand_cid: str, include_non_bonded_contacts: bool):
@@ -2351,7 +2494,13 @@ class molecules_container_t:
 
         a more simple interface to the above
 
-        :return: a pair: the first is the status (1 for OK, 0 for fail) """
+        :param imol:  is the model molecule index 
+
+        :param selection_cid:  is the selection CID e.g "//A/15-23" 
+
+        :param include_non_bonded_contacts:  is the flag to include non bonded contacts
+
+        :return: a pair: the first is the status (1 for OK, 0 for failed to determine the distortion) """
         pass
 
     def match_ligand_torsions(self, imol_ligand: int, imol_ref: int, chain_id_ref: str, resno_ref: int) -> bool:
