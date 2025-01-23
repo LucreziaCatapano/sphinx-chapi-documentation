@@ -226,6 +226,7 @@ Map Tools
     .. automethod:: connect_updating_maps
     .. automethod:: fourier_shell_correlation
     .. automethod:: get_q_score
+    .. automethod:: get_q_score_for_cid
     .. automethod:: get_map_section_texture
     .. automethod:: get_number_of_map_sections
     .. automethod:: set_map_colour
