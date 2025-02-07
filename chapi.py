@@ -1,6 +1,21 @@
 class lsq_results_t:
-    pass
+      pass
 class molecules_container_t:
+
+    def package_version(self) -> str:
+        """ Get the package version
+
+        :return: the package version, e.g. "1.1.11" - if this is a not yet a release version the version will end in a "+", such as "1.1.11+" """
+        return 'a-string'
+
+    def set_use_gemmi(self, state: bool) -> None:
+        """ Set the state of using GEMMI for coordinates parsing
+
+        :param state:  is True to mean that it is enabled. The default is True. """
+
+    def get_use_gemmi(self) -> bool:
+        """ Get the state of using GEMMI for coordinates parsing. """
+        return True
 
     def set_make_backups(self, state: bool) -> None:
         """ Allow the user to disable/enable backups
@@ -623,7 +638,7 @@ class molecules_container_t:
         pass
 
     def get_residue_sidechain_average_position(self, imol: int, cid: str):
-        """ Get the avarage residue side-chain position
+        """ Get the average residue side-chain position
 
         :param imol:  is the model molecule index 
 
@@ -2435,10 +2450,14 @@ class molecules_container_t:
         :return: a simple::molecule_t for the specified residue. """
         pass
 
-    def make_exportable_environment_bond_box(self, imol: int):
+    def make_exportable_environment_bond_box(self, imol: int, max_dist: float):
         """ 
 
-        :param spec:  is the residue specifier, e.g. residue_spec_t("A", 10, "")
+        :param imol:  is the model molecule index 
+
+        :param spec:  is the residue specifier, e.g. residue_spec_t("A", 10, "") 
+
+        :param max_dist:  specifies the maximum distance of the interaction, typically 3.8
 
         :return: a vector of lines for non-bonded contacts and hydrogen bonds """
         pass
@@ -2687,12 +2706,14 @@ class molecules_container_t:
         :return: a vector/list of `validation_information_t` """
         pass
 
-    def unmodelled_blobs(self, imol_model: int, imol_map: int):
+    def unmodelled_blobs(self, imol_model: int, imol_map: int, rmsd_cut_off: float):
         """ Unmodelled blobs
 
         :param imol_model:  is the model molecule index 
 
-        :param imol_map:  is the map molecule index
+        :param imol_map:  is the map molecule index 
+
+        :param rmsd_cut_off:  is the low map limit for cluster generation 1.4 is a reasonable value.
 
         :return: a vector/list of `validation_information_t` """
         pass
@@ -2997,10 +3018,10 @@ class molecules_container_t:
         :return: a value less than -99.9 on failure to fit. """
         return 0.0
 
-    def get_svg_for_residue_type(self, imol: int, comp_id: str, use_rdkit_svg: bool, dark_background_flag: bool) -> str:
+    def get_svg_for_residue_type(self, imol: int, comp_id: str, use_rdkit_svg: bool, background_type: str) -> str:
         """ Get svg for residue type
 
-        It won't work unless the dictionary for that ligand has been imported. The output renderings are not very good at the moment.
+        It won't work unless the dictionary for that ligand has been imported. The native output renderings are not very good at the moment. (The RDKit renderings are pretty good).
 
         :param imol:  is the model molecule index, except for unusual cases, it will be IMOL_ENC_ANY (-999999) 
 
@@ -3008,7 +3029,9 @@ class molecules_container_t:
 
         :param use_rdkit_svg:  is the flag for using the rdkit svg renderer 
 
-        :param dark_background_flag:  returns a representation suitable for rendering on a dark background 
+        :param background_type:  is one of:
+
+        This function is not const because it caches the svgs.
 
         :return: the string for the SVG representation. """
         return 'a-string'
@@ -3166,13 +3189,4 @@ class molecules_container_t:
 
         :return: the state of having found restraints """
         return 'a-string'
-
-    def set_use_gemmi(self, state: bool) -> None:
-        """ Set the state of using GEMMI for coordinates parsing
-
-        :param state:  is True to mean that it is enabled. The default is True. """
-
-    def get_use_gemmi(self) -> bool:
-        """ Get the state of using GEMMI for coordinates parsing. """
-        return True
 
