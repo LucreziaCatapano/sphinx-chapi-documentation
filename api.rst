@@ -9,6 +9,7 @@ Basics Utilities
 .. class:: molecules_container_t
    :noindex:
 
+    .. automethod:: package_version
     .. automethod:: set_make_backups
     .. automethod:: get_make_backups
     .. automethod:: contains_unsaved_models
