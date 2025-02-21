@@ -46,6 +46,7 @@ Molecular Information
     .. automethod:: get_header_info
     .. automethod:: get_number_of_molecules
     .. automethod:: print_secondary_structure_info
+    .. automethod:: get_sequence_info
     .. automethod:: get_molecule_name
     .. automethod:: get_molecule_centre
     .. automethod:: get_molecule_diameter
@@ -342,6 +343,7 @@ Validation
     .. automethod:: get_validation_vs_dictionary_for_selection
     .. automethod:: match_ligand_torsions
     .. automethod:: get_ligand_distortion
+    .. automethod:: match_ligand_position
     .. automethod:: match_ligand_torsions_and_position
     .. automethod:: match_ligand_torsions_and_position_using_cid
     .. automethod:: get_overlap_dots
@@ -349,6 +351,7 @@ Validation
     .. automethod:: get_overlaps
     .. automethod:: get_overlaps_for_ligand
     .. automethod:: density_fit_analysis
+    .. automethod:: get_sum_density_for_atoms_in_residue
     .. automethod:: density_correlation_analysis
     .. automethod:: rotamer_analysis
     .. automethod:: ramachandran_analysis
@@ -359,6 +362,7 @@ Validation
     .. automethod:: pepflips_using_difference_map
     .. automethod:: unmodelled_blobs
     .. automethod:: find_water_baddies
+    
     
 
 
@@ -401,6 +405,7 @@ Molecular Graphics Representation
     .. automethod:: get_svg_for_residue_type
     .. automethod:: write_png
     .. automethod:: pae_png
+    .. automethod:: export_chemical_features_as_gltf
 
 
 Testing functions
