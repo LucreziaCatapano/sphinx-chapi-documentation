@@ -56,11 +56,13 @@ Molecular Information
     .. automethod:: get_residue_name
     .. automethod:: get_residue_names_with_no_dictionary
     .. automethod:: get_residues_near_residue
+    .. automethod:: get_distances_between_atoms_of_residues
     .. automethod:: get_torsion
     .. automethod:: get_residue_CA_position
     .. automethod:: get_residue_average_position
     .. automethod:: get_residue_sidechain_average_position
     .. automethod:: residues_with_missing_atoms
+    .. automethod:: residue_is_nucleic_acid 
     .. automethod:: get_missing_residue_ranges
     .. automethod:: get_number_of_atoms
     .. automethod:: get_number_of_hydrogen_atoms
@@ -70,6 +72,7 @@ Molecular Information
     .. automethod:: get_cell
     .. automethod:: get_symmetry
     .. automethod:: get_mutation_info
+    .. automethod:: get_HOLE
 
 
 Geometry and Dictionaries
@@ -143,6 +146,7 @@ Model Manipulation
     .. automethod:: delete_side_chain_using_cid
     .. automethod:: delete_chain_using_cid
     .. automethod:: delete_literal_using_cid
+    .. automethod:: delete_all_carbohydrate
     .. automethod:: add_terminal_residue_directly
     .. automethod:: add_terminal_residue_directly_using_cid
     .. automethod:: set_add_waters_water_to_protein_distance_lim_min
@@ -236,6 +240,7 @@ Map Tools
     .. automethod:: get_map_contours_mesh
     .. automethod:: get_map_contours_mesh_using_other_map_for_colours
     .. automethod:: set_map_colour_saturation
+    .. automethod:: scale_map
 
 
 Structure Factor
@@ -303,6 +308,7 @@ Servalcat
    :noindex:
    
    .. automethod:: servalcat_refine_xray
+   .. automethod:: servalcat_refine_xray_with_keywords
 
 
 Fitting
@@ -406,6 +412,7 @@ Molecular Graphics Representation
     .. automethod:: write_png
     .. automethod:: pae_png
     .. automethod:: export_chemical_features_as_gltf
+    .. automethod:: get_svg_for_2d_ligand_environment_view
 
 
 Testing functions

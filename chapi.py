@@ -1,5 +1,5 @@
 class lsq_results_t:
-      pass
+        pass
 class molecules_container_t:
 
     def package_version(self) -> str:
@@ -64,6 +64,13 @@ class molecules_container_t:
 
         :return: the map weight """
         return 0.0
+
+    def scale_map(self, imol_map: int, scale_factor: float) -> None:
+        """ Scale map
+
+        :param imol:  is the model molecule index 
+
+        :param scale_factor:  is the scale factor """
 
     def atom_cid_to_atom_spec(self, imol: int, cid: str):
         """ Convert atom cid string to a coot atom specifier
@@ -617,6 +624,18 @@ class molecules_container_t:
         :return: a `simple_mesh_t` """
         pass
 
+    def residue_is_nucleic_acid(self, imol: int, cid: str) -> bool:
+        """ Residue is nucleic acid?
+
+        Every residue in the selection is checked
+
+        :param imol:  is the model molecule index 
+
+        :param cid:  is the selection CID e.g "//A/15" (residue 15 of chain A)
+
+        :return: a bool """
+        return True
+
     def get_residue_CA_position(self, imol: int, cid: str):
         """ Get the residue CA position
 
@@ -755,6 +774,18 @@ class molecules_container_t:
         :param dist:  is the distance in Angstrom
 
         :return: a list of residue specs """
+        pass
+
+    def get_distances_between_atoms_of_residues(self, imol: int, cid_res_1: str, cid_res_2: str, dist_max: float):
+        """ Get atom distances
+
+        :param imol:  is the model molecule index 
+
+        :param cid_res_1:  is the first atom selection CID e.g "//A/15/OH" (atom OH in residue 15 of chain A) 
+
+        :param cid_res_2:  is the second atom selection CID e.g "//A/17/NH" (atom NH in residue 17 of chain A) 
+
+        :param dist:  is the distance in Angstrom """
         pass
 
     def SSM_superpose(self, imol_ref: int, chain_id_ref: str, imol_mov: int, chain_id_mov: str):
@@ -1596,6 +1627,14 @@ class molecules_container_t:
 
         :return: 1 on successful deletion, return 0 on failure to delete. """
 
+    def delete_all_carbohydrate(self, imol: int) -> bool:
+        """ delete all carbohydrate
+
+        :param imol:  is the model molecule index
+
+        :return: true on successful deletion, return false on no deletion. """
+        return True
+
     def change_alt_locs(self, imol: int, cid: str, change_mode: str) -> int:
         """ Change alternate conformation
 
@@ -1884,7 +1923,7 @@ class molecules_container_t:
 
         :param imol:  is the model molecule index 
 
-        :param multi_cids:  is a "||"-separated list of residues CIDs, e.g. "//A/12-52||//A/14-15||/B/56-66"
+        :param multi_cids:  is a "||"-separated list of residues CIDs, e.g. "//A/12-52||//A/14-15||//B/56-66"
 
         :return: the new molecule number (or -1 on no atoms selected) """
         return 0
@@ -2382,6 +2421,20 @@ class molecules_container_t:
         :return: the imol of the refined model. """
         return 0
 
+    def servalcat_refine_xray_with_keywords(self, imol: int, imol_map: int, output_prefix: str, key_value_pairs: dict) -> int:
+        """ Use servalcat keywords
+
+        :param imol:  is the model molecule index 
+
+        :param imol_map:  is the map molecule index 
+
+        :param output_prefix:  is the prefix of the output filename, e.g. "ref-1" 
+
+        :param key_value_pairs:  is a dictionary of key-value pairs for the servalcat keywords, e.g. "resolution": 2.05
+
+        :return: the imol of the refined model. """
+        return 0
+
     def get_rotamer_dodecs(self, imol: int):
         """ Get the rotamer dodecs for the model
 
@@ -2740,6 +2793,14 @@ class molecules_container_t:
         :return: a vector/list of atom specifiers """
         pass
 
+    def get_HOLE(self, imol: int, start_pos_x: float, start_pos_y: float, start_pos_z: float, end_pos_x: float, end_pos_y: float, end_pos_z: float):
+        """ Get HOLE
+
+        HOLE is a program for the analysis of the pore dimesions of ion channels. See Smart et al., 1996.
+
+        :return: a list of spheres on the surface of the pore """
+        pass
+
     def fourier_shell_correlation(self, imol_map_1: int, imol_map_2: int):
         """ Fourier Shell Correlation (FSC) between maps
 
@@ -3018,24 +3079,6 @@ class molecules_container_t:
         :return: a value less than -99.9 on failure to fit. """
         return 0.0
 
-    def get_svg_for_residue_type(self, imol: int, comp_id: str, use_rdkit_svg: bool, background_type: str) -> str:
-        """ Get svg for residue type
-
-        It won't work unless the dictionary for that ligand has been imported. The native output renderings are not very good at the moment. (The RDKit renderings are pretty good).
-
-        :param imol:  is the model molecule index, except for unusual cases, it will be IMOL_ENC_ANY (-999999) 
-
-        :param comp_id:  is the 3-letter code for the residue/ligand, e.g. "ALA" for alanine 
-
-        :param use_rdkit_svg:  is the flag for using the rdkit svg renderer 
-
-        :param background_type:  is one of:
-
-        This function is not const because it caches the svgs.
-
-        :return: the string for the SVG representation. """
-        return 'a-string'
-
     def add_compound(self, imol: int, tlc: str, imol_dict: int, imol_map: int, x: float, y: float, z: float) -> int:
         """ This function is for adding compounds/molecules like buffer agents and precipitants or anions and cations. e.g. those ligands that can be positioned without need for internal torsion angle manipulation.
 
@@ -3055,6 +3098,40 @@ class molecules_container_t:
 
         :return: the success status, 1 for good, 0 for not good. """
         return 0
+
+    def get_svg_for_residue_type(self, imol: int, comp_id: str, use_rdkit_svg: bool, background_type: str) -> str:
+        """ Get svg for residue type
+
+        It won't work unless the dictionary for that ligand has been imported. The native output renderings are not very good at the moment. (The RDKit renderings are pretty good).
+
+        :param imol:  is the model molecule index, except for unusual cases, it will be IMOL_ENC_ANY (-999999) 
+
+        :param comp_id:  is the 3-letter code for the residue/ligand, e.g. "ALA" for alanine 
+
+        :param use_rdkit_svg:  is the flag for using the rdkit svg renderer 
+
+        :param background_type:  is one of:
+
+        This function is not const because it caches the svgs.
+
+        :return: the string for the SVG representation. """
+        return 'a-string'
+
+    def get_svg_for_2d_ligand_environment_view(self, imol: int, residue_cid: str) -> str:
+        """ Get SVG for 2d ligand environment view (FLEV)
+
+        The caller should make sure that the dictionary for the ligand has been loaded - this function won't do that. It will add hydrogen atoms if needed.
+
+        From time to time (depending on the ligand) this function will fail to produce a result.
+
+        Not const because get_monomer_restraints_at_least_minimal() is called. 
+
+        :param imol:  is the model molecule index 
+
+        :param residue_cid:  is the cid for the residue 
+
+        :return: an svg string of the representation. On failure, return an empty string. """
+        return 'a-string'
 
     def get_non_standard_residues_in_molecule(self, imol: int):
         """ Get non-standard residues in a model
@@ -3154,6 +3231,9 @@ class molecules_container_t:
     def get_triangles_for_blender(self, imol: int):
         """ Function for Blender interface. """
         pass
+
+    def test_function(self, s: str) -> None:
+        """         Sphinx-Doc-Placeholder"""
 
 
 
