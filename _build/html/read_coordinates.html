@@ -418,10 +418,15 @@ Yamashita, K., Palmer, C. M., Burnley, T., Murshudov, G. N. (2021) Acta Cryst. D
 The complete script can be downloaded <a class="reference download internal" download="" href="_downloads/76daa582c5253d25fd3ed531cba33e85/basepairs.py"><code class="xref download docutils literal notranslate"><span class="pre">here</span></code></a></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">chapi</span>
+
 
 <span class="n">desired_atoms</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;O6&quot;</span><span class="p">,</span> <span class="s2">&quot;N4&quot;</span><span class="p">,</span> <span class="s2">&quot;N1&quot;</span><span class="p">,</span> <span class="s2">&quot;N3&quot;</span><span class="p">,</span> <span class="s2">&quot;N2&quot;</span><span class="p">,</span> <span class="s2">&quot;O2&quot;</span><span class="p">}</span>
 
 <span class="k">def</span><span class="w"> </span><span class="nf">check_d</span><span class="p">(</span><span class="n">pdb_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">residue_numbers</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">distance_threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">3.1</span><span class="p">):</span>
+    
+    <span class="n">mc</span> <span class="o">=</span> <span class="n">chapi</span><span class="o">.</span><span class="n">molecules_container_t</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">mc</span><span class="o">.</span><span class="n">set_use_gemmi</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
     
     <span class="c1"># Read molecular coordinates and maps</span>
     <span class="n">imol</span> <span class="o">=</span> <span class="n">mc</span><span class="o">.</span><span class="n">read_coordinates</span><span class="p">(</span><span class="n">pdb_path</span><span class="p">)</span>
@@ -459,11 +464,6 @@ The complete script can be downloaded <a class="reference download internal" dow
                         <span class="s2">&quot;Residue_no2&quot;</span><span class="p">:</span> <span class="n">d</span><span class="o">.</span><span class="n">atom_2</span><span class="o">.</span><span class="n">res_no</span><span class="p">,</span>
                         <span class="s2">&quot;Atom2&quot;</span><span class="p">:</span> <span class="n">atom2_name</span><span class="p">,</span>
                         <span class="s2">&quot;Distance&quot;</span><span class="p">:</span> <span class="n">d</span><span class="o">.</span><span class="n">distance</span>
-                    <span class="p">}</span>
-                    <span class="n">distances_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">distance_data</span><span class="p">)</span>
-
-    <span class="c1"># Return the distances as a pandas DataFrame</span>
-    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">distances_list</span><span class="p">)</span>
 </pre></div>
 </div>
 <p><strong>Plotting the differences after refinement</strong></p>

@@ -1,9 +1,14 @@
 import pandas as pd
 import numpy as np
+import chapi
+
 
 desired_atoms = {"O6", "N4", "N1", "N3", "N2", "O2"}
 
 def check_d(pdb_path: str, residue_numbers: list[int], distance_threshold: float = 3.1):
+    
+    mc = chapi.molecules_container_t(False)
+    mc.set_use_gemmi(False)
     
     # Read molecular coordinates and maps
     imol = mc.read_coordinates(pdb_path)
