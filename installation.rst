@@ -22,4 +22,6 @@ It will run through the dependencies and hopefully end up with a Python that has
 There will be some screen output and build logs will be in ~/public_html/build_logs.
 
 
-
+Another way to have the latest chapi is to install coot via **homebrew**::
+   
+   brew install brewsci/bio/coot

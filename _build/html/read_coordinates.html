@@ -1,0 +1,553 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reading Files &mdash; Coot API Documentation 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=055ea0aa" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=d45e8c67"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Chapi Python API" href="chapi_api.html" />
+    <link rel="prev" title="Installation" href="installation.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Coot API Documentation
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Reading Files</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#coordinate-files">Coordinate Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#mtz-and-map-files">MTZ and Map Files</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#mrc-ccp4-maps">MRC/CCP4 Maps</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#writing-files">Writing Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#molecular-information">Molecular Information</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#examples">Examples</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#general-information"><strong>1. General Information</strong></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#header-info"><strong>2. Header Info</strong></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#molecular-editing">Molecular Editing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">Examples</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#adding-water-molecules"><strong>1. Adding water molecules</strong></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#deleting-water-molecules-outliers"><strong>2. Deleting water molecules outliers</strong></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#refinement">Refinement</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id3">Examples</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#real-space-refinement-using-coot"><strong>1. Real Space Refinement using Coot</strong></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#refinement-using-servalcat"><strong>2. Refinement using Servalcat</strong></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#base-pairs-analysis"><strong>3. Base pairs Analysis</strong></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#ligand">Ligand</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id4">Examples</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#clark-and-labute-2d-representation"><strong>1. Clark and Labute 2D representation</strong></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="chapi_api.html">Chapi Python API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="coot_api.html">Coot Python API</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/docs/api/html">C++ API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Coot API Documentation</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Reading Files</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/read_coordinates.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="reading-files">
+<h1>Reading Files<a class="headerlink" href="#reading-files" title="Link to this heading"></a></h1>
+<section id="coordinate-files">
+<span id="read-coordinates"></span><h2>Coordinate Files<a class="headerlink" href="#coordinate-files" title="Link to this heading"></a></h2>
+<p>Chapi supports the following coordinate file formats:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>mmCIF (PDBx/mmCIF)</p></li>
+<li><p>PDB</p></li>
+<li><p>SHELXL</p></li>
+<li><p>MOL file</p></li>
+</ul>
+</div></blockquote>
+<p>The <code class="code docutils literal notranslate"><span class="pre">read_coordinates()</span></code> is a function provided by the <code class="code docutils literal notranslate"><span class="pre">molecules_container_t</span></code> class of the <code class="code docutils literal notranslate"><span class="pre">chapi</span></code> module, designed to read files in different format, including mmCIF or PDB format.
+Additionally, the function <code class="code docutils literal notranslate"><span class="pre">read_pdb()</span></code> can be used as well to read PDB and mmCIF files.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">chapi</span>
+
+<span class="n">mc</span> <span class="o">=</span> <span class="n">chapi</span><span class="o">.</span><span class="n">molecules_container_t</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># read PDB file</span>
+<span class="n">imol_pdb</span> <span class="o">=</span> <span class="n">mc</span><span class="o">.</span><span class="n">read_coordinates</span><span class="p">(</span><span class="s2">&quot;rnase.pdb&quot;</span><span class="p">)</span>
+
+<span class="c1"># read mmCIF file</span>
+<span class="n">imol_mmcif</span> <span class="o">=</span> <span class="n">mc</span><span class="o">.</span><span class="n">read_coordinates</span><span class="p">(</span><span class="s2">&quot;rnase.cif&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="mtz-and-map-files">
+<h2>MTZ and Map Files<a class="headerlink" href="#mtz-and-map-files" title="Link to this heading"></a></h2>
+<p>MTZ file format can be read by using the <code class="code docutils literal notranslate"><span class="pre">read_mtz()</span></code> function.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">imol_mtz</span> <span class="o">=</span> <span class="n">mc</span><span class="o">.</span><span class="n">read_mtz</span><span class="p">(</span><span class="s2">&quot;rnase-1.8-all_refmac1.mtz&quot;</span><span class="p">,</span> <span class="s2">&quot;FWT&quot;</span><span class="p">,</span> <span class="s2">&quot;PHWT&quot;</span><span class="p">,</span> <span class="s2">&quot;W&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The latest two arguments are:</p>
+<ul class="simple">
+<li><p><code class="code docutils literal notranslate"><span class="pre">use_weight</span></code> (bool): the flag to use the map weight</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">is_a_difference_map</span></code> (bool): the flag to set the map as a difference map</p></li>
+</ul>
+<section id="mrc-ccp4-maps">
+<h3>MRC/CCP4 Maps<a class="headerlink" href="#mrc-ccp4-maps" title="Link to this heading"></a></h3>
+<p>EM maps are typically in MRC/CCP4 map format</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">imol_map</span> <span class="o">=</span> <span class="n">mc</span><span class="o">.</span><span class="n">read_ccp4_map</span><span class="p">(</span><span class="s2">&quot;emd_16890.map&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The latest argument is <code class="code docutils literal notranslate"><span class="pre">is_a_difference_map</span></code> (bool): the flag to set the map as a difference map</p>
+</section>
+</section>
+</section>
+<section id="writing-files">
+<h1>Writing Files<a class="headerlink" href="#writing-files" title="Link to this heading"></a></h1>
+<p>The <code class="code docutils literal notranslate"><span class="pre">write_coordinates()</span></code> and <code class="code docutils literal notranslate"><span class="pre">write_map()</span></code> functions are used to write coordinates files (PDB and mmCIF)
+and map files (MTZ and map) respectively.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># read mmCIF file</span>
+<span class="n">imol_mmcif</span> <span class="o">=</span> <span class="n">mc</span><span class="o">.</span><span class="n">read_coordinates</span><span class="p">(</span><span class="s2">&quot;rnase.cif&quot;</span><span class="p">)</span>
+
+<span class="c1"># write mmCIF file</span>
+<span class="n">imol_mmcif_new</span> <span class="o">=</span> <span class="n">mc</span><span class="o">.</span><span class="n">write_coordinates</span><span class="p">(</span><span class="n">imol_mmcif</span><span class="p">,</span> <span class="s2">&quot;rnase-new.cif&quot;</span><span class="p">)</span>
+
+<span class="c1"># read MTZ file</span>
+<span class="n">imol_mtz</span> <span class="o">=</span> <span class="n">mc</span><span class="o">.</span><span class="n">read_mtz</span><span class="p">(</span><span class="s2">&quot;rnase-1.8-all_refmac1.mtz&quot;</span><span class="p">,</span> <span class="s2">&quot;FWT&quot;</span><span class="p">,</span> <span class="s2">&quot;PHWT&quot;</span><span class="p">,</span> <span class="s2">&quot;W&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+
+<span class="c1"># write MTZ file</span>
+<span class="n">imol_mtz_new</span> <span class="o">=</span> <span class="n">mc</span><span class="o">.</span><span class="n">write_map</span><span class="p">(</span><span class="n">imol_mtz</span><span class="p">,</span> <span class="s2">&quot;rnase-1.8-all_refmac1_new.mtz&quot;</span><span class="p">)</span>
+
+<span class="c1"># read map file</span>
+<span class="n">imol_map</span> <span class="o">=</span> <span class="n">mc</span><span class="o">.</span><span class="n">read_ccp4_map</span><span class="p">(</span><span class="s2">&quot;emd_16890.map&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+
+<span class="c1"># write map file</span>
+<span class="n">imol_map_new</span> <span class="o">=</span> <span class="n">mc</span><span class="o">.</span><span class="n">write_map</span><span class="p">(</span><span class="n">imol_map</span><span class="p">,</span> <span class="s2">&quot;emd_16890_new.map&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="molecular-information">
+<h1>Molecular Information<a class="headerlink" href="#molecular-information" title="Link to this heading"></a></h1>
+<p>The following functions return information about macromolecular models. For more details see the <strong>Chapi Python API</strong> - <a class="reference external" href="https://www.mrc-lmb.cam.ac.uk/lucrezia/libcootapi-documentation/chapi_api.html#molecular-information">Molecular Information</a> section.</p>
+<p><strong>General Information</strong></p>
+<ul class="simple">
+<li><p><code class="code docutils literal notranslate"><span class="pre">get_molecule_diameter()</span></code></p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">get_number_of_atoms()</span></code></p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">get_number_of_hydrogen_atoms()</span></code></p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">get_cell()</span></code></p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">get_symmetry()</span></code></p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">get_hb_type()</span></code></p></li>
+</ul>
+<p><strong>Chains</strong></p>
+<ul class="simple">
+<li><p><code class="code docutils literal notranslate"><span class="pre">get_chains_in_model()</span></code></p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">get_single_letter_codes_for_chain()</span></code></p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">get_ncs_related_chains()</span></code></p></li>
+</ul>
+<p><strong>Residue</strong></p>
+<ul class="simple">
+<li><p><code class="code docutils literal notranslate"><span class="pre">get_residue_name()</span></code></p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">get_residue_names_with_no_dictionary()</span></code></p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">residues_with_missing_atoms()</span></code></p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">get_residues_near_residue()</span></code></p></li>
+</ul>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h2>
+<section id="general-information">
+<h3><strong>1. General Information</strong><a class="headerlink" href="#general-information" title="Link to this heading"></a></h3>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">chapi</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mc</span> <span class="o">=</span> <span class="n">chapi</span><span class="o">.</span><span class="n">molecules_container_t</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mc</span><span class="o">.</span><span class="n">set_use_gemmi</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">imol</span> <span class="o">=</span> <span class="n">mc</span><span class="o">.</span><span class="n">read_pdb</span><span class="p">(</span><span class="s2">&quot;rnase.pdb&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">molecule_diameter</span> <span class="o">=</span> <span class="n">mc</span><span class="o">.</span><span class="n">get_molecule_diameter</span><span class="p">(</span><span class="n">imol</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;molecule diameter:&quot;</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">molecule_diameter</span><span class="p">))</span>
+<span class="go">molecule diameter: 56</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">number_of_atoms</span> <span class="o">=</span> <span class="n">mc</span><span class="o">.</span><span class="n">get_number_of_atoms</span><span class="p">(</span><span class="n">imol</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;number of atoms:&quot;</span><span class="p">,</span> <span class="n">number_of_atoms</span><span class="p">)</span>
+<span class="go">number of atoms: 1465</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">chains</span> <span class="o">=</span> <span class="n">mc</span><span class="o">.</span><span class="n">get_chains_in_model</span><span class="p">(</span><span class="n">imol</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;chains:&quot;</span><span class="p">,</span> <span class="n">chains</span><span class="p">)</span>
+<span class="go">chains: [&#39;A&#39;, &#39;B&#39;]</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">residue45_name</span> <span class="o">=</span> <span class="n">mc</span><span class="o">.</span><span class="n">get_residue_name</span><span class="p">(</span><span class="n">imol</span><span class="p">,</span> <span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;residue 45 name:&quot;</span><span class="p">,</span> <span class="n">residue45_name</span><span class="p">)</span>
+<span class="go">residue 45 name: PRO</span>
+</pre></div>
+</div>
+</section>
+<section id="header-info">
+<h3><strong>2. Header Info</strong><a class="headerlink" href="#header-info" title="Link to this heading"></a></h3>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">chapi</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mc</span> <span class="o">=</span> <span class="n">chapi</span><span class="o">.</span><span class="n">molecules_container_t</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mc</span><span class="o">.</span><span class="n">set_use_gemmi</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">imol</span> <span class="o">=</span> <span class="n">mc</span><span class="o">.</span><span class="n">read_pdb</span><span class="p">(</span><span class="s2">&quot;1mcy.pdb&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">header_info</span> <span class="o">=</span> <span class="n">mc</span><span class="o">.</span><span class="n">get_header_info</span><span class="p">(</span><span class="n">imol</span><span class="p">)</span>
+
+<span class="go">INFO:: There are 8 helices and 0 sheets</span>
+<span class="go">            Helix info:</span>
+<span class="go">------------------------------------------------</span>
+<span class="go">1 1 A 4 A 35 32</span>
+<span class="go">2 2 A 37 A 42 6</span>
+<span class="go">3 3 A 52 A 57 6</span>
+<span class="go">4 4 A 59 A 78 20</span>
+<span class="go">5 5 A 83 A 95 13</span>
+<span class="go">6 6 A 101 A 118 18</span>
+<span class="go">7 7 A 120 A 122 3</span>
+<span class="go">8 8 A 125 A 149 25</span>
+<span class="go">               Sheet info:</span>
+<span class="go">------------------------------------------------</span>
+<span class="go">------------------------------------------------</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">compound_lines</span> <span class="o">=</span> <span class="n">header_info</span><span class="o">.</span><span class="n">compound_lines</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">journal_lines</span>  <span class="o">=</span> <span class="n">header_info</span><span class="o">.</span><span class="n">journal_lines</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">author_lines</span>   <span class="o">=</span> <span class="n">header_info</span><span class="o">.</span><span class="n">author_lines</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">author_lines</span><span class="p">:</span>
+<span class="go">        print(&quot;author_line:&quot;, l)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">compound_lines</span><span class="p">:</span>
+<span class="go">        print(&quot;compound_line:&quot;, l)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">journal_lines</span><span class="p">:</span>
+<span class="go">        print(&quot;jounal_line:&quot;, l)</span>
+
+<span class="go">author_line: T.LI,G.N.PHILLIPS JR.</span>
+<span class="go">compound_line: MOL_ID: 1;</span>
+<span class="go">compound_line:  MOLECULE: MYOGLOBIN (CARBONMONOXY);</span>
+<span class="go">compound_line:  CHAIN: A;</span>
+<span class="go">compound_line:  ENGINEERED: YES;</span>
+<span class="go">compound_line:  MUTATION: YES</span>
+<span class="go">jounal_line:   AUTH   X.ZHAO,K.VYAS,B.D.NGUYEN,K.RAJARATHNAM,G.N.LA MAR,T.LI,</span>
+<span class="go">jounal_line:   AUTH 2 G.N.PHILLIPS,R.F.EICH,J.S.OLSON,J.LING</span>
+<span class="go">jounal_line:   TITL   A DOUBLE MUTANT OF SPERM WHALE MYOGLOBIN MIMICS THE</span>
+<span class="go">jounal_line:   TITL 2 STRUCTURE AND FUNCTION OF ELEPHANT MYOGLOBIN.</span>
+<span class="go">jounal_line:   REF    J.BIOL.CHEM.                  V. 270 20763 1995</span>
+<span class="go">jounal_line:   REFN                   ISSN 0021-9258</span>
+<span class="go">jounal_line:   PMID   7657659</span>
+<span class="go">jounal_line:   DOI    10.1074/JBC.270.35.20781</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+<section id="molecular-editing">
+<h1>Molecular Editing<a class="headerlink" href="#molecular-editing" title="Link to this heading"></a></h1>
+<p>There are many functions in the API that edit molecules, e.g., adding, deleting and moving the atoms.
+More functions are documented in the <strong>Chapi Python API</strong> - <a class="reference external" href="https://www.mrc-lmb.cam.ac.uk/lucrezia/libcootapi-documentation/chapi_api.html#model-manipulation">Model Manipulation</a> section.</p>
+<section id="id2">
+<h2>Examples<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<section id="adding-water-molecules">
+<h3><strong>1. Adding water molecules</strong><a class="headerlink" href="#adding-water-molecules" title="Link to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">chapi</span>
+
+<span class="n">mc</span> <span class="o">=</span> <span class="n">chapi</span><span class="o">.</span><span class="n">molecules_container_t</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">mc</span><span class="o">.</span><span class="n">set_use_gemmi</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="c1"># read coordinates and map</span>
+<span class="n">imol</span> <span class="o">=</span> <span class="n">mc</span><span class="o">.</span><span class="n">read_pdb</span><span class="p">(</span><span class="s2">&quot;rnase.pdb&quot;</span><span class="p">)</span>
+<span class="n">imol_mtz</span> <span class="o">=</span> <span class="n">mc</span><span class="o">.</span><span class="n">read_mtz</span><span class="p">(</span><span class="s2">&quot;rnase-1.8-all_refmac1.mtz&quot;</span><span class="p">,</span> <span class="s2">&quot;FWT&quot;</span><span class="p">,</span> <span class="s2">&quot;PHWT&quot;</span><span class="p">,</span> <span class="s2">&quot;W&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+
+<span class="c1"># set the parameters for waters addition (the default values are given as arguments)</span>
+<span class="n">mc</span><span class="o">.</span><span class="n">set_add_waters_water_to_protein_distance_lim_min</span><span class="p">(</span><span class="mf">2.4</span><span class="p">)</span>
+<span class="n">mc</span><span class="o">.</span><span class="n">set_add_waters_water_to_protein_distance_lim_max</span><span class="p">(</span><span class="mf">3.4</span><span class="p">)</span>
+<span class="n">mc</span><span class="o">.</span><span class="n">set_add_waters_variance_limit</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="n">mc</span><span class="o">.</span><span class="n">set_add_waters_sigma_cutoff</span><span class="p">(</span><span class="mf">1.75</span><span class="p">)</span>
+
+<span class="c1"># add waters</span>
+<span class="n">mc</span><span class="o">.</span><span class="n">add_waters</span><span class="p">(</span><span class="n">imol</span><span class="p">,</span> <span class="n">imol_mtz</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="deleting-water-molecules-outliers">
+<h3><strong>2. Deleting water molecules outliers</strong><a class="headerlink" href="#deleting-water-molecules-outliers" title="Link to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">chapi</span>
+
+<span class="n">mc</span> <span class="o">=</span> <span class="n">chapi</span><span class="o">.</span><span class="n">molecules_container_t</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">mc</span><span class="o">.</span><span class="n">set_use_gemmi</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="c1"># read coordinates and map</span>
+<span class="n">imol</span> <span class="o">=</span> <span class="n">mc</span><span class="o">.</span><span class="n">read_pdb</span><span class="p">(</span><span class="s2">&quot;rnase.pdb&quot;</span><span class="p">)</span>
+<span class="n">imol_mtz</span> <span class="o">=</span> <span class="n">mc</span><span class="o">.</span><span class="n">read_mtz</span><span class="p">(</span><span class="s2">&quot;rnase-1.8-all_refmac1.mtz&quot;</span><span class="p">,</span> <span class="s2">&quot;FWT&quot;</span><span class="p">,</span> <span class="s2">&quot;PHWT&quot;</span><span class="p">,</span> <span class="s2">&quot;W&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+
+<span class="c1"># delete water &quot;outliers&quot; - e.g., those with a distance to the protein less than 2.5 </span>
+<span class="c1"># or more than 3.5</span>
+<span class="n">min_dist</span> <span class="o">=</span> <span class="mf">2.5</span>
+<span class="n">max_dist</span> <span class="o">=</span> <span class="mf">3.5</span>
+<span class="n">median_temperature_factor</span> <span class="o">=</span> <span class="n">mc</span><span class="o">.</span><span class="n">get_median_temperature_factor</span><span class="p">(</span><span class="n">imol</span><span class="p">)</span>
+<span class="n">b_factor_limit</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">median_temperature_factor</span>
+<span class="n">outlier_map_rmsd_level</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">ignore_part_occ_contact_flag</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="n">ignore_zero_occ_flag</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="n">water_outliers</span> <span class="o">=</span> <span class="n">mc</span><span class="o">.</span><span class="n">find_water_baddies</span><span class="p">(</span><span class="n">imol</span><span class="p">,</span>
+                                        <span class="n">imol_mtz</span><span class="p">,</span>
+                                        <span class="n">b_factor_limit</span><span class="p">,</span>
+                                        <span class="n">outlier_map_rmsd_level</span><span class="p">,</span>
+                                        <span class="n">min_dist</span><span class="p">,</span>
+                                        <span class="n">max_dist</span><span class="p">,</span>
+                                        <span class="n">ignore_part_occ_contact_flag</span><span class="p">,</span>
+                                        <span class="n">ignore_zero_occ_flag</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">res</span> <span class="ow">in</span> <span class="n">water_outliers</span><span class="p">:</span>
+    <span class="n">cid</span> <span class="o">=</span> <span class="s2">&quot;//&quot;</span> <span class="o">+</span> <span class="n">res</span><span class="o">.</span><span class="n">chain_id</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">res_no</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Deleting water&quot;</span><span class="p">,</span> <span class="n">cid</span><span class="p">)</span>
+    <span class="n">mc</span><span class="o">.</span><span class="n">delete_atom_using_cid</span><span class="p">(</span><span class="n">imol</span><span class="p">,</span> <span class="n">cid</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+<section id="refinement">
+<h1>Refinement<a class="headerlink" href="#refinement" title="Link to this heading"></a></h1>
+<section id="id3">
+<h2>Examples<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<section id="real-space-refinement-using-coot">
+<h3><strong>1. Real Space Refinement using Coot</strong><a class="headerlink" href="#real-space-refinement-using-coot" title="Link to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Read the molecular coordinates and map for 2pwt</span>
+<span class="n">imol</span> <span class="o">=</span> <span class="n">mc</span><span class="o">.</span><span class="n">read_coordinates</span><span class="p">(</span><span class="s2">&quot;2pwt.pdb&quot;</span><span class="p">)</span>
+<span class="n">imol_map</span> <span class="o">=</span> <span class="n">mc</span><span class="o">.</span><span class="n">read_ccp4_map</span><span class="p">(</span><span class="s2">&quot;2pwt.ccp4&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+
+<span class="c1"># Set the refinement map</span>
+<span class="n">mc</span><span class="o">.</span><span class="n">set_imol_refinement_map</span><span class="p">(</span><span class="n">imol_map</span><span class="p">)</span>
+
+<span class="c1"># Add hydrogen atoms to the molecule</span>
+<span class="n">add_H_status</span> <span class="o">=</span> <span class="n">mc</span><span class="o">.</span><span class="n">add_hydrogen_atoms</span><span class="p">(</span><span class="n">imol</span><span class="p">)</span>
+
+<span class="c1"># If hydrogen atoms were successfully added, refine the residues</span>
+<span class="k">if</span> <span class="n">add_H_status</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+    
+    <span class="c1"># Import the CIF dictionary for refinement</span>
+    <span class="n">mc</span><span class="o">.</span><span class="n">import_cif_dictionary</span><span class="p">(</span><span class="s2">&quot;/Applications/ccp4-9/lib/data/monomers/l/LHA.cif&quot;</span><span class="p">,</span> <span class="n">imol</span><span class="p">)</span> 
+
+    <span class="c1"># Refine the residues in the specified range</span>
+    <span class="n">mc</span><span class="o">.</span><span class="n">refine_residues_using_atom_cid</span><span class="p">(</span><span class="n">imol</span><span class="p">,</span> <span class="s2">&quot;//B/24-44&quot;</span><span class="p">,</span> <span class="s2">&quot;ALL&quot;</span><span class="p">,</span> <span class="mi">10000</span><span class="p">)</span>
+
+    <span class="c1"># Delete the hydrogen atoms after refinement</span>
+    <span class="n">mc</span><span class="o">.</span><span class="n">delete_hydrogen_atoms</span><span class="p">(</span><span class="n">imol</span><span class="p">)</span>
+
+    <span class="c1"># Write the refined coordinates to a new PDB file</span>
+    <span class="n">mc</span><span class="o">.</span><span class="n">write_coordinates</span><span class="p">(</span><span class="n">imol</span><span class="p">,</span> <span class="s2">&quot;2pwt_coot_refined.pdb&quot;</span><span class="p">)</span>   
+</pre></div>
+</div>
+</section>
+<section id="refinement-using-servalcat">
+<h3><strong>2. Refinement using Servalcat</strong><a class="headerlink" href="#refinement-using-servalcat" title="Link to this heading"></a></h3>
+<p>Servalcat supports refinement of structures against X-ray data as well. For more details, see:
+Yamashita, K., Palmer, C. M., Burnley, T., Murshudov, G. N. (2021) Acta Cryst. D77, 1282-1291
+<a class="reference external" href="https://servalcat.readthedocs.io/en/latest/overview.html">https://servalcat.readthedocs.io/en/latest/overview.html</a></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Read the coordinates and map for 2pwt</span>
+<span class="n">imol</span> <span class="o">=</span> <span class="n">mc</span><span class="o">.</span><span class="n">read_pdb</span><span class="p">(</span><span class="s2">&quot;2pwt.pdb&quot;</span><span class="p">)</span>
+<span class="n">imol_map</span> <span class="o">=</span> <span class="n">mc</span><span class="o">.</span><span class="n">read_ccp4_map</span><span class="p">(</span><span class="s2">&quot;2pwt.ccp4&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+
+<span class="c1"># Associate mtz file with map</span>
+<span class="n">mc</span><span class="o">.</span><span class="n">associate_data_mtz_file_with_map</span><span class="p">(</span><span class="n">imol_map</span><span class="p">,</span><span class="s2">&quot;2pwt.mtz&quot;</span> <span class="p">,</span> <span class="s2">&quot;FP&quot;</span><span class="p">,</span> <span class="s2">&quot;SIGFP&quot;</span><span class="p">,</span> <span class="s2">&quot;FREE&quot;</span><span class="p">)</span>
+
+<span class="c1"># Refine using servalcat</span>
+<span class="n">mc</span><span class="o">.</span><span class="n">servalcat_refine_xray</span><span class="p">(</span><span class="n">imol</span><span class="p">,</span> <span class="n">imol_map</span><span class="p">,</span> <span class="s2">&quot;ref1&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The function <code class="code docutils literal notranslate"><span class="pre">servalcat_refine_xray_with_keywords()</span></code> can be used to specify the servalcat keywords.</p>
+</section>
+<section id="base-pairs-analysis">
+<h3><strong>3. Base pairs Analysis</strong><a class="headerlink" href="#base-pairs-analysis" title="Link to this heading"></a></h3>
+<p>In this example, we analyse the base pairs distances in 2PWT after refinement with Coot.
+The complete script can be downloaded <a class="reference download internal" download="" href="_downloads/9708f0e82b40e42d72e052ad1546ac32/basepairs.py"><code class="xref download docutils literal notranslate"><span class="pre">here</span></code></a></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="n">desired_atoms</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;O6&quot;</span><span class="p">,</span> <span class="s2">&quot;N4&quot;</span><span class="p">,</span> <span class="s2">&quot;N1&quot;</span><span class="p">,</span> <span class="s2">&quot;N3&quot;</span><span class="p">,</span> <span class="s2">&quot;N2&quot;</span><span class="p">,</span> <span class="s2">&quot;O2&quot;</span><span class="p">}</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">check_d</span><span class="p">(</span><span class="n">pdb_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">residue_numbers</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">distance_threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">3.1</span><span class="p">):</span>
+    
+    <span class="c1"># Read molecular coordinates and maps</span>
+    <span class="n">imol</span> <span class="o">=</span> <span class="n">mc</span><span class="o">.</span><span class="n">read_coordinates</span><span class="p">(</span><span class="n">pdb_path</span><span class="p">)</span>
+    <span class="n">distances_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">current_residue_res_no</span> <span class="ow">in</span> <span class="n">residue_numbers</span><span class="p">:</span>
+        <span class="n">current_residue_cid</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;//B/</span><span class="si">{</span><span class="n">current_residue_res_no</span><span class="si">}</span><span class="s2">&quot;</span>
+
+        <span class="n">neighbours</span> <span class="o">=</span> <span class="n">mc</span><span class="o">.</span><span class="n">get_residues_near_residue</span><span class="p">(</span><span class="n">imol</span><span class="p">,</span> 
+                                                  <span class="n">current_residue_cid</span><span class="p">,</span> 
+                                                  <span class="n">distance_threshold</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">neighbours</span><span class="p">:</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">mc</span><span class="o">.</span><span class="n">get_residue_name</span><span class="p">(</span><span class="n">imol</span><span class="p">,</span> <span class="n">n</span><span class="o">.</span><span class="n">chain_id</span><span class="p">,</span> <span class="n">n</span><span class="o">.</span><span class="n">res_no</span><span class="p">,</span> <span class="n">n</span><span class="o">.</span><span class="n">ins_code</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;HOH&quot;</span><span class="p">:</span>
+                <span class="k">continue</span>  <span class="c1"># Ignore water molecules</span>
+            <span class="n">delta_res_no</span> <span class="o">=</span> <span class="n">n</span><span class="o">.</span><span class="n">res_no</span> <span class="o">-</span> <span class="n">current_residue_res_no</span>
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">delta_res_no</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">continue</span>  <span class="c1"># Ignore adjacent residues</span>
+            <span class="n">neighbour_cid</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;//</span><span class="si">{</span><span class="n">n</span><span class="o">.</span><span class="n">chain_id</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">n</span><span class="o">.</span><span class="n">res_no</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="n">distances</span> <span class="o">=</span> <span class="n">mc</span><span class="o">.</span><span class="n">get_distances_between_atoms_of_residues</span><span class="p">(</span><span class="n">imol</span><span class="p">,</span> 
+                                                                   <span class="n">current_residue_cid</span><span class="p">,</span> 
+                                                                   <span class="n">neighbour_cid</span><span class="p">,</span> 
+                                                                   <span class="n">distance_threshold</span><span class="p">)</span>
+            
+            <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">distances</span><span class="p">:</span>
+                <span class="n">atom1_name</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">atom_1</span><span class="o">.</span><span class="n">atom_name</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>  
+                <span class="n">atom2_name</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">atom_2</span><span class="o">.</span><span class="n">atom_name</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> 
+
+                <span class="k">if</span> <span class="n">atom1_name</span> <span class="ow">in</span> <span class="n">desired_atoms</span> <span class="ow">and</span> <span class="n">atom2_name</span> <span class="ow">in</span> <span class="n">desired_atoms</span><span class="p">:</span>
+                    <span class="n">distance_data</span> <span class="o">=</span> <span class="p">{</span>
+                        <span class="s2">&quot;Chain ID1&quot;</span><span class="p">:</span> <span class="n">d</span><span class="o">.</span><span class="n">atom_1</span><span class="o">.</span><span class="n">chain_id</span><span class="p">,</span>
+                        <span class="s2">&quot;Residue_no1&quot;</span><span class="p">:</span> <span class="n">d</span><span class="o">.</span><span class="n">atom_1</span><span class="o">.</span><span class="n">res_no</span><span class="p">,</span>
+                        <span class="s2">&quot;Atom1&quot;</span><span class="p">:</span> <span class="n">atom1_name</span><span class="p">,</span>
+                        <span class="s2">&quot;Chain ID2&quot;</span><span class="p">:</span> <span class="n">d</span><span class="o">.</span><span class="n">atom_2</span><span class="o">.</span><span class="n">chain_id</span><span class="p">,</span>
+                        <span class="s2">&quot;Residue_no2&quot;</span><span class="p">:</span> <span class="n">d</span><span class="o">.</span><span class="n">atom_2</span><span class="o">.</span><span class="n">res_no</span><span class="p">,</span>
+                        <span class="s2">&quot;Atom2&quot;</span><span class="p">:</span> <span class="n">atom2_name</span><span class="p">,</span>
+                        <span class="s2">&quot;Distance&quot;</span><span class="p">:</span> <span class="n">d</span><span class="o">.</span><span class="n">distance</span>
+                    <span class="p">}</span>
+                    <span class="n">distances_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">distance_data</span><span class="p">)</span>
+
+    <span class="c1"># Return the distances as a pandas DataFrame</span>
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">distances_list</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Plotting the differences after refinement</strong></p>
+<blockquote>
+<div><p><a class="reference download internal" download="" href="_downloads/cce3eb0c5c716943fb76a1aecb0d04fc/basepairs-plotting.py"><code class="xref download docutils literal notranslate"><span class="pre">basepairs-plotting.py</span></code></a></p>
+</div></blockquote>
+<a class="reference internal image-reference" href="_images/basepairs_distance_differences.png"><img alt="_images/basepairs_distance_differences.png" class="align-center" src="_images/basepairs_distance_differences.png" style="width: 150%;" />
+</a>
+</section>
+</section>
+</section>
+<section id="ligand">
+<h1>Ligand<a class="headerlink" href="#ligand" title="Link to this heading"></a></h1>
+<section id="id4">
+<h2>Examples<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
+<section id="clark-and-labute-2d-representation">
+<h3><strong>1. Clark and Labute 2D representation</strong><a class="headerlink" href="#clark-and-labute-2d-representation" title="Link to this heading"></a></h3>
+<p>The Clark and Labute 2D representation is a schematic diagram in which the ligand is displayed in 2D form, and the interactions to and between the residues in its vicinity are summarized in a concise and information-rich manner
+– Clark, A. H., &amp; Labute, P. (2007). J. Chem. Inf. Model., 47(4), 1937-1948.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">chapi</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+
+<span class="c1"># Set the COOT_PREFIX environment variable to the installation path of COOT</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;COOT_PREFIX&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;/opt/homebrew/Cellar/coot/1.1.15&quot;</span>
+
+<span class="c1"># Initialize the COOT headless API with a molecules container</span>
+<span class="n">mc</span> <span class="o">=</span> <span class="n">chapi</span><span class="o">.</span><span class="n">molecules_container_t</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Disable the use of GEMMI library</span>
+<span class="n">mc</span><span class="o">.</span><span class="n">set_use_gemmi</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="c1"># Read the coordinates from the PDB file and get the molecule index (imol)</span>
+<span class="n">imol</span> <span class="o">=</span> <span class="n">mc</span><span class="o">.</span><span class="n">read_coordinates</span><span class="p">(</span><span class="s2">&quot;2vtq.pdb&quot;</span><span class="p">)</span>
+
+<span class="c1"># Retrieve the monomer information for the ligand &quot;LZA&quot;</span>
+<span class="n">mc</span><span class="o">.</span><span class="n">get_monomer</span><span class="p">(</span><span class="s2">&quot;LZA&quot;</span><span class="p">)</span>
+
+<span class="c1"># Add hydrogen atoms to the molecule</span>
+<span class="n">mc</span><span class="o">.</span><span class="n">add_hydrogen_atoms</span><span class="p">(</span><span class="n">imol</span><span class="p">)</span>
+
+<span class="c1"># Generate a 2D SVG representation of the ligand environment for LZA</span>
+<span class="n">svg</span> <span class="o">=</span> <span class="n">mc</span><span class="o">.</span><span class="n">get_svg_for_2d_ligand_environment_view</span><span class="p">(</span><span class="n">imol</span><span class="p">,</span> <span class="s2">&quot;//A/1299&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Write the generated SVG to a file</span>
+<span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;LZA_2d_ligand_environment.svg&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span>
+<span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">svg</span><span class="p">)</span>
+<span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/LZA_2d_ligand_environment.svg"><img alt="_images/LZA_2d_ligand_environment.svg" class="align-center" src="_images/LZA_2d_ligand_environment.svg" style="width: 80%;" />
+</a>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="installation.html" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="chapi_api.html" class="btn btn-neutral float-right" title="Chapi Python API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Lucrezia Catapano &amp; Paul Emsley.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

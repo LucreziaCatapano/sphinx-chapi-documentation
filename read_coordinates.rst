@@ -1,10 +1,10 @@
 Reading Files
-##################
+================================================================
 
 .. _read_coordinates:
 
 Coordinate Files
-================================================================
+------------------------------------------
 
 
 Chapi supports the following coordinate file formats:
@@ -26,14 +26,14 @@ Additionally, the function :code:`read_pdb()` can be used as well to read PDB an
    mc = chapi.molecules_container_t(True)
 
    # read PDB file
-   imol_pdb = mc.read_coordinates("tutorial-modern.pdb")
+   imol_pdb = mc.read_coordinates("rnase.pdb")
 
    # read mmCIF file
-   imol_mmcif = mc.read_coordinates("tutorial-modern.cif")
+   imol_mmcif = mc.read_coordinates("rnase.cif")
 
 
 MTZ and Map Files
-================================================================
+------------------------
 
 
 MTZ file format can be read by using the :code:`read_mtz()` function.
@@ -59,8 +59,9 @@ EM maps are typically in MRC/CCP4 map format
 
 The latest argument is :code:`is_a_difference_map` (bool): the flag to set the map as a difference map
 
+
 Writing Files
-##################
+=========================================
 
 The :code:`write_coordinates()` and :code:`write_map()` functions are used to write coordinates files (PDB and mmCIF) 
 and map files (MTZ and map) respectively.
@@ -69,10 +70,10 @@ and map files (MTZ and map) respectively.
 .. code-block:: python
 
    # read mmCIF file
-   imol_mmcif = mc.read_coordinates("tutorial-modern.cif")
+   imol_mmcif = mc.read_coordinates("rnase.cif")
 
    # write mmCIF file
-   imol_mmcif_new = mc.write_coordinates(imol_mmcif, "tutorial-modern-new.cif")
+   imol_mmcif_new = mc.write_coordinates(imol_mmcif, "rnase-new.cif")
 
    # read MTZ file
    imol_mtz = mc.read_mtz("rnase-1.8-all_refmac1.mtz", "FWT", "PHWT", "W", False, False)
@@ -87,48 +88,50 @@ and map files (MTZ and map) respectively.
    imol_map_new = mc.write_map(imol_map, "emd_16890_new.map")
 
 
-Molecular Models
-##################
+.. Molecular Models
+.. ##################
 
 Molecular Information
-================================================================
+========================================
 
-The following functions return information about macromolecular models. For more details see the **Python API** - `Molecular Information <https://www.mrc-lmb.cam.ac.uk/lucrezia/libcootapi-documentation/api.html#molecular-information>`_ section.
+
+The following functions return information about macromolecular models. For more details see the **Chapi Python API** - `Molecular Information <https://www.mrc-lmb.cam.ac.uk/lucrezia/libcootapi-documentation/chapi_api.html#molecular-information>`_ section.
+
+**General Information**
 
 * :code:`get_molecule_diameter()`
-
 * :code:`get_number_of_atoms()`
-
 * :code:`get_number_of_hydrogen_atoms()`
-
 * :code:`get_cell()`
-
 * :code:`get_symmetry()`
-
 * :code:`get_hb_type()`
 
 **Chains**
 
 * :code:`get_chains_in_model()`
-
 * :code:`get_single_letter_codes_for_chain()`
-
 * :code:`get_ncs_related_chains()`
 
 **Residue**
 
 * :code:`get_residue_name()`
-
 * :code:`get_residue_names_with_no_dictionary()`
-
 * :code:`residues_with_missing_atoms()`
-
 * :code:`get_residues_near_residue()`
 
+Examples
+------------------------------------------------------
 
+**1. General Information**
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. doctest::
+   
+   >>> import chapi
 
-   >>> imol = mc.read_pdb("tutorial-modern.pdb")
+   >>> mc = chapi.molecules_container_t(False)
+   >>> mc.set_use_gemmi(False)
+
+   >>> imol = mc.read_pdb("rnase.pdb")
    >>> molecule_diameter = mc.get_molecule_diameter(imol)
    >>> print("molecule diameter:", round(molecule_diameter))
    molecule diameter: 56
@@ -146,15 +149,18 @@ The following functions return information about macromolecular models. For more
    residue 45 name: PRO 
 
 
-**Example #1: header info**
+**2. Header Info**
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 
 .. doctest::
 
    >>> import chapi
+
    >>> mc = chapi.molecules_container_t(False)
    >>> mc.set_use_gemmi(False)
 
-   >>> imol = mc.read_pdb('1mcy.pdb')
+   >>> imol = mc.read_pdb("1mcy.pdb")
    >>> header_info = mc.get_header_info(imol)
 
    INFO:: There are 8 helices and 0 sheets
@@ -197,16 +203,92 @@ The following functions return information about macromolecular models. For more
    jounal_line:   PMID   7657659
    jounal_line:   DOI    10.1074/JBC.270.35.20781
 
+
 Molecular Editing
-================================================================
+========================================
 There are many functions in the API that edit molecules, e.g., adding, deleting and moving the atoms.
-More functions are documented in the **Python API** - `Model Manipulation <https://www.mrc-lmb.cam.ac.uk/lucrezia/libcootapi-documentation/api.html#model-manipulation>`_ section.
+More functions are documented in the **Chapi Python API** - `Model Manipulation <https://www.mrc-lmb.cam.ac.uk/lucrezia/libcootapi-documentation/chapi_api.html#model-manipulation>`_ section.
 
+Examples
+------------------------------------------------------
 
-**Example #1: adding water molecules**
+**1. Adding water molecules**
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. literalinclude:: chapi-add-waters.py
 
-**Example #2 : deleting water molecules outliers**
+
+**2. Deleting water molecules outliers**
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. literalinclude:: chapi-delete-waters.py
+
+
+Refinement
+=========================
+
+Examples
+------------------------------------------------------
+
+
+**1. Real Space Refinement using Coot**
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. literalinclude:: chapi-refine.py
+
+
+**2. Refinement using Servalcat**
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Servalcat supports refinement of structures against X-ray data as well. For more details, see:
+Yamashita, K., Palmer, C. M., Burnley, T., Murshudov, G. N. (2021) Acta Cryst. D77, 1282-1291
+https://servalcat.readthedocs.io/en/latest/overview.html
+
+
+.. literalinclude:: servalcat-refine.py
+
+
+The function :code:`servalcat_refine_xray_with_keywords()` can be used to specify the servalcat keywords.
+
+
+**3. Base pairs Analysis**
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In this example, we analyse the base pairs distances in 2PWT after refinement with Coot.
+The complete script can be downloaded :download:`here <basepairs.py>`
+
+.. literalinclude:: basepairs.py
+  :lines: 1-48
+
+
+**Plotting the differences after refinement** 
+  
+  :download:`basepairs-plotting.py <basepairs-plotting.py>`
+
+.. image:: basepairs_distance_differences.png
+   :width: 150%
+   :align: center
+
+
+
+Ligand
+=========================
+
+Examples
+------------------------------------------------------
+
+**1. Clark and Labute 2D representation**
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+The Clark and Labute 2D representation is a schematic diagram in which the ligand is displayed in 2D form, and the interactions to and between the residues in its vicinity are summarized in a concise and information-rich manner
+-- Clark, A. H., & Labute, P. (2007). J. Chem. Inf. Model., 47(4), 1937-1948.
+
+
+.. literalinclude:: flev.py
+  :language: python
+
+   
+.. image:: LZA_2d_ligand_environment.svg
+   :width: 80%
+   :align: center

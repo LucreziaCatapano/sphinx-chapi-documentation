@@ -58,7 +58,7 @@ templates_path = ['_templates']
 # This pattern also affects html_static_path and html_extra_path.
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
-
+add_module_names = False
 # -- Options for HTML output -------------------------------------------------
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
@@ -67,9 +67,26 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 html_theme = 'sphinx_rtd_theme'
 
 
+
 pygments_style = 'sphinx'
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = []
+# html_static_path = []
+
+
+
+html_static_path = ['_static']
+
+html_css_files = [
+    'custom.css',
+]
+
+# html_css_files = ['custom.css',  # Custom CSS file
+#     'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css', # Example CDN for Font Awesome
+# ]
+# html_js_files = [
+#     'js/clipboard.min.js',
+#     'js/copybutton.js',
+# ]

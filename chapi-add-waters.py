@@ -1,6 +1,11 @@
+import chapi
+
+mc = chapi.molecules_container_t(True)
+mc.set_use_gemmi(False)
+
 # read coordinates and map
-imol = mc.read_pdb('tutorial-modern.pdb')
-imol_mtz = mc.read_mtz("rnasa-1.8-all_refmac1.mtz", "FWT", "PHWT", "W", False, False)
+imol = mc.read_pdb("rnase.pdb")
+imol_mtz = mc.read_mtz("rnase-1.8-all_refmac1.mtz", "FWT", "PHWT", "W", False, False)
 
 # set the parameters for waters addition (the default values are given as arguments)
 mc.set_add_waters_water_to_protein_distance_lim_min(2.4)

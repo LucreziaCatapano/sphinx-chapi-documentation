@@ -1,0 +1,14 @@
+
+/* increase the size of code blocks text */
+.rst-content div.highlight > pre {
+    font-size: 0.8em; /* Try this one if the others are not specific enough */
+    font-family: 'Monaco', monospace; /* Use a different font if needed */
+    background-color: #FFFFE0; 
+    border: none;/* Use a different font if needed */
+}
+
+/* increase the size of inline code */
+.rst-content code {
+    font-size: 0.8em; /* Adjust inline code size if needed */
+} 
+  

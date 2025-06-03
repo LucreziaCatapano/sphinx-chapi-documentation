@@ -14,16 +14,15 @@ Contents
 --------
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
 
    Introduction<self>
    installation.rst
    read_coordinates.rst
-   api.rst
+   chapi_api.rst
+   coot_api.rst
    C++ API <https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/docs/api/html>
-
-
 
 * :ref:`genindex`
 
