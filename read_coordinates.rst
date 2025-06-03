@@ -215,13 +215,13 @@ Examples
 **1. Adding water molecules**
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. literalinclude:: chapi-add-waters.py
+.. literalinclude:: scripts/chapi-add-waters.py
 
 
 **2. Deleting water molecules outliers**
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. literalinclude:: chapi-delete-waters.py
+.. literalinclude:: scripts/chapi-delete-waters.py
 
 
 Refinement
@@ -234,7 +234,7 @@ Examples
 **1. Real Space Refinement using Coot**
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. literalinclude:: chapi-refine.py
+.. literalinclude:: scripts/chapi-refine.py
 
 
 **2. Refinement using Servalcat**
@@ -245,7 +245,7 @@ Yamashita, K., Palmer, C. M., Burnley, T., Murshudov, G. N. (2021) Acta Cryst. D
 https://servalcat.readthedocs.io/en/latest/overview.html
 
 
-.. literalinclude:: servalcat-refine.py
+.. literalinclude:: scripts/servalcat-refine.py
 
 
 The function :code:`servalcat_refine_xray_with_keywords()` can be used to specify the servalcat keywords.
@@ -255,17 +255,17 @@ The function :code:`servalcat_refine_xray_with_keywords()` can be used to specif
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 In this example, we analyse the base pairs distances in 2PWT after refinement with Coot.
-The complete script can be downloaded :download:`here <basepairs.py>`
+The complete script can be downloaded :download:`here <scripts/basepairs.py>`
 
-.. literalinclude:: basepairs.py
+.. literalinclude:: scripts/basepairs.py
   :lines: 1-48
 
 
 **Plotting the differences after refinement** 
   
-  :download:`basepairs-plotting.py <basepairs-plotting.py>`
+  :download:`basepairs-plotting.py <scripts/basepairs-plotting.py>`
 
-.. image:: basepairs_distance_differences.png
+.. image:: images/basepairs_distance_differences.png
    :width: 150%
    :align: center
 
@@ -285,10 +285,10 @@ The Clark and Labute 2D representation is a schematic diagram in which the ligan
 -- Clark, A. H., & Labute, P. (2007). J. Chem. Inf. Model., 47(4), 1937-1948.
 
 
-.. literalinclude:: flev.py
+.. literalinclude:: scripts/flev.py
   :language: python
 
    
-.. image:: LZA_2d_ligand_environment.svg
+.. image:: images/LZA_2d_ligand_environment.svg
    :width: 80%
    :align: center
