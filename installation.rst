@@ -1,27 +1,55 @@
 Installation
 ==========================================
 
-**chapi** is available from `CCP4 version 9.0 <https://www.ccp4.ac.uk/download/index.php#os=macos>`_ as a module in ccp4-python (Python 3.9.18)
+CCP4
+------------------------------------------
 
-To install the latest chapi library:
+**chapi** is available as a module in ccp4-python (Python 3.9.18) starting from `CCP4 version 9.0 <https://www.ccp4.ac.uk/download/index.php#os=macos>`_.
 
-* Download the **build-it-3-3** script:
+To install the latest chapi library, you have several options:
 
-  https://github.com/pemsley/coot/blob/main/build-it-3-3
+Install via build-it-3-3 script
+-------------------------------
 
+1. Download the **build-it-3-3** script from:
 
-* Set this environment variable::
+   https://github.com/pemsley/coot/blob/main/build-it-3-3
 
-   export CHAPI_ONLY=true
+2. Set the environment variable to install only chapi::
 
-* Run::
+     export CHAPI_ONLY=true
 
-   bash build-it-3-3
+3. Run the build script::
 
-It will run through the dependencies and hopefully end up with a Python that has the latest chapi.
-There will be some screen output and build logs will be in ~/public_html/build_logs.
+     bash build-it-3-3
 
+The script will handle dependencies and attempt to build a Python environment with the latest chapi. Build logs will be saved in `~/public_html/build_logs`.
 
-Another way to have the latest chapi is to install coot via **homebrew**::
-   
+Install via Homebrew
+--------------------
+
+Alternatively, you can install coot (which includes chapi) using **Homebrew**::
+
    brew install brewsci/bio/coot
+
+Install via Conda
+-----------------
+
+To install chapi using conda, follow these steps:
+
+1. Add the conda-forge channel and set strict channel priority::
+
+     conda config --add channels conda-forge
+
+     conda config --set channel_priority strict
+   
+2. Note: If your Conda environment uses Python 3.13 or newer, `coot-headless` will not be installable due to version constraints. Use Python 3.12 instead.
+   Create a new environment and install coot-headless::
+
+     conda create -n coot-env python=3.12 coot-headless -c conda-forge -c bioconda
+   
+
+4. Activate the environment::
+
+     conda activate coot-env
+   
