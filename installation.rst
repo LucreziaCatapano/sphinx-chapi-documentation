@@ -49,7 +49,7 @@ To install chapi using conda, follow these steps:
      conda create -n coot-env python=3.12 coot-headless -c conda-forge -c bioconda
    
 
-4. Activate the environment::
+3. Activate the environment::
 
      conda activate coot-env
    

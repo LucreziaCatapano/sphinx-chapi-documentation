@@ -23,7 +23,7 @@ copyright = '2024, Lucrezia Catapano & Paul Emsley'
 author = 'Lucrezia Catapano & Paul Emsley'
 
 # The full version, including alpha/beta/rc tags
-release = '0.0.1'
+release = '1.1.8'
 
 
 # -- General configuration ---------------------------------------------------
@@ -65,6 +65,7 @@ add_module_names = False
 # a list of builtin themes.
 #
 html_theme = 'sphinx_rtd_theme'
+# html_theme = 'furo'
 
 
 
