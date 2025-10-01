@@ -1,5 +1,6 @@
 class lsq_results_t:
         pass
+
 class molecules_container_t:
 
     def package_version(self) -> str:
@@ -292,6 +293,10 @@ class molecules_container_t:
         :return: the atom name match on superposing the atoms of the given dictionaries """
         pass
 
+    def get_types_in_molecule(self, imol: int):
+        """ get types """
+        pass
+
     def get_groups_for_monomers(self, residue_names: list):
         """ Get the groups for a vector/list of monomers
 
@@ -486,10 +491,26 @@ class molecules_container_t:
 
         :param style:  "Ribbon" or "MolecularSurface" 
 
-        :param secondary_structure_usage_flag:  0 (USE_HEADER), 1 (DONT_USE) or 2 (CALC_SECONDARY_STRUCTURE) """
+        :param secondary_structure_usage_flag:  0 (USE_HEADER), 1 (DONT_USE) or 2 (CALC_SECONDARY_STRUCTURE) 
+
+        :param file_name:  of the glTF (the file will be compressed, so choose ".glb" as the extension) """
 
     def export_chemical_features_as_gltf(self, imol: int, cid: str, file_name: str) -> None:
         """ export chemical features for the specified residue """
+
+    def set_gltf_pbr_roughness_factor(self, imol: int, roughness_factor: float) -> None:
+        """ set the gltf PBR roughness factor
+
+        :param imol:  is the model molecule index 
+
+        :param roughness_factor:  is the factor for the roughness (0.0 to 1.0) """
+
+    def set_gltf_pbr_metalicity_factor(self, imol: int, metalicity: float) -> None:
+        """ set the gltf PBR metalicity factor
+
+        :param imol:  is the model molecule index 
+
+        :param metalicity:  is the factor for the roughness (0.0 to 1.0) """
 
     def get_colour_table(self, imol: int, against_a_dark_background: bool):
         """ Get colour table (for testing)
@@ -622,6 +643,34 @@ class molecules_container_t:
         :param cid:  is the atom selection CID e.g "//A/15" (all the atoms in residue 15 of chain A)
 
         :return: a `simple_mesh_t` """
+        pass
+
+    def get_atom_using_cid(self, imol: int, cid: str):
+        """ get an (mmdb-style) atom
+
+        If more than one atom is selected by the selection cid, then the first atom is returned.
+
+        Don't use this in emscript.
+
+        :param imol:  is the model molecule index 
+
+        :param cid:  is the coordinate-id for the atom. 
+
+        :return: either the specified atom or nullopt (None) if not found """
+        pass
+
+    def get_residue_using_cid(self, imol: int, cid: str):
+        """ get an (mmdb-style) residue
+
+        If more than one residue is selected by the selection cid, then the first residue is returned.
+
+        Don't use this in emscript.
+
+        :param imol:  is the model molecule index 
+
+        :param cid:  is the coordinate-id for the residue 
+
+        :return: either the specified residue or nullopt (None) if not found """
         pass
 
     def residue_is_nucleic_acid(self, imol: int, cid: str) -> bool:
@@ -791,13 +840,15 @@ class molecules_container_t:
     def SSM_superpose(self, imol_ref: int, chain_id_ref: str, imol_mov: int, chain_id_mov: str):
         """ Superposition (using SSM)
 
+        The specified chain of the moving molecule is superposed onto the chain in the reference molecule (if possible).
+
         :param imol_ref:  the reference model molecule index 
 
         :param chain_id_ref:  the chain ID for the reference chain 
 
         :param imol_mov:  the moving model molecule index 
 
-        :param chain_id_mov:  the chain ID for the moving chain"""
+        :param chain_id_mov:  the chain ID for the moving chain """
         pass
 
     def add_lsq_superpose_match(self, chain_id_ref: str, res_no_ref_start: int, res_no_ref_end: int, chain_id_mov: str, res_no_mov_start: int, res_no_mov_end: int, match_type: int) -> None:
@@ -835,12 +886,15 @@ class molecules_container_t:
     def clear_lsq_matches(self) -> None:
         """ Clear any existing lsq matchers. """
 
-    def lsq_superpose(self, imol_ref: int, imol_mov: int) -> None:
+    def lsq_superpose(self, imol_ref: int, imol_mov: int) -> bool:
         """ Apply the superposition using LSQ
 
         :param imol_ref:  the reference model molecule index 
 
-        :param imol_mov:  the moving model molecule index """
+        :param imol_mov:  the moving model molecule index 
+
+        :return: the success status, i.e. whether or not there were enough atoms to superpose """
+        return True
 
     def transform_map_using_lsq_matrix(self, imol_map: int, lsq_matrix: lsq_results_t, x: float, y: float, z: float, radius: float) -> int:
         """ Transform a map and create a new map
@@ -935,198 +989,6 @@ class molecules_container_t:
 
         :param temp_fact:  is the isotropic ADP/temperature factor, e.g., 22 """
 
-
-
-    def testing_start_long_term_job(self, n_seconds: int) -> None:
-        """ Testing function
-
-        start a long-term job.
-
-        :param n_seconds:  is the number of seconds, if is 0, then run forever (or until interrupted) """
-
-    def testing_stop_long_term_job(self) -> None:
-        """ Testing function
-
-        stop the long-term job runnning """
-
-    def testing_interrogate_long_term_job(self):
-        """ Testing function
-
-        get the stats for the long-term job """
-        pass
-
-    def get_contouring_time(self):
-        """ Testing function
-
-        get the time for contouring in milliseconds """
-        pass
-
-    def set_max_number_of_threads(self, n_threads: int) -> None:
-        """ Testing function
-
-        set the maximum number of threads for both the thread pool and the vector of threads
-
-        :param n_threads:  is the number of threads """
-
-    def set_max_number_of_threads_in_thread_pool(self, n_threads: int) -> None:
-        """ Testing function
-
-        Deprecated name for the "set_max_number_of_threads()" function """
-
-    def test_the_threading(self, n_threads: int):
-        """ Testing function
-
-        get the time to run a test function in milliseconds
-
-        :param n_threads:  is the number of threads """
-        pass
-
-    def test_launching_threads(self, n_threads_per_batch: int, n_batches: int):
-        """ Testing function
-
-        :param n_threads_per_batch:  is the number of threads per batch 
-
-        :param n_batches:  is the number batches
-
-        :return: the time per batch in microseconds """
-        pass
-
-    def test_thread_pool_threads(self, n_threads: int):
-        """ Testing function
-
-        :param n_threads:  is the number of threads
-
-        :return: time in microseconds """
-        pass
-
-    def mmcif_tests(self, last_test_only: bool) -> int:
-        """ Testing function
-
-        a test for mmdb/gemmi/mmcif functionality
-
-        :param last_test_only:  is True to mean that only that last test should be run. The default is False. This is useful to set to True while a test is being developed.
-
-        :return: the success status: 1 means that all the tests passed. """
-        return 0
-
-    def get_molecule_name(self, imol: int) -> str:
-        """ Get the molecule name
-
-        :param imol:  is the model molecule index
-
-        :return: the name of the molecule """
-        return 'a-string'
-
-    def set_molecule_name(self, imol: int, new_name: str) -> None:
-        """ Set the molecule name
-
-        :param imol:  is the model or map molecule index 
-
-        :param new_name:  is the new name of the model or map """
-
-    def display_molecule_names_table(self) -> None:
-        """ Debugging function: display the table of molecule and names. """
-
-    def is_valid_model_molecule(self, imol: int) -> bool:
-        """ Check if the model index is valid
-
-        e.g. if the molecule is a map you will have an invalid model
-
-        :param imol:  is the model molecule index
-
-        :return: True or False """
-        return True
-
-    def is_valid_map_molecule(self, imol_map: int) -> bool:
-        """ Check if the map index is valid
-
-        e.g. if the map is a model you will have an invalid map
-
-        :param imol_map:  is the map molecule index
-
-        :return: True or False """
-        return True
-
-    def is_a_difference_map(self, imol_map: int) -> bool:
-        """ Check if it the map is a difference map
-
-        :param imol_map:  is the map molecule index
-
-        :return: True or False """
-        return True
-
-    def new_molecule(self, name: str) -> int:
-        """ Create an empty molecule
-
-        :return: the index of the new molecule """
-        return 0
-
-    def close_molecule(self, imol: int) -> int:
-        """ Close the molecule (and delete dynamically allocated memory)
-
-        :param imol:  is the model molecule index
-
-        :return: 1 on successful closure and 0 on failure to close """
-        return 0
-
-    def end_delete_closed_molecules(self) -> None:
-        """ Delete the most recent/last closed molecule in the molecule vector, until the first non-closed molecule is found (working from the end) """
-
-    def pop_back(self) -> None:
-        """ Delete the most recent/last molecule in the molecule vector. """
-
-    def clear(self) -> None:
-        """ Delete all molecules. """
-
-    def get_eigenvalues(self, imol: int, chain_id: str, res_no: int, ins_code: str):
-        """ Get the eigenvalues of the specified residue
-
-        :param imol:  is the model molecule index 
-
-        :param chain_id:  e.g. "A" for chain A 
-
-        :param res_no:  is the residue number, e.g. 12 
-
-        :param ins_code:  is the insertion code, e.g. "A"
-
-        :return: the eigenvalues of the atoms in the specified residue """
-        pass
-
-    def test_origin_cube(self):
-        """ Get a simple test mesh
-
-        :return: the mesh of a unit solid cube at the origin """
-        pass
-
-    def fill_rotamer_probability_tables(self) -> None:
-        """ Fill the rotamer probability tables (currently not ARG and LYS) """
-
-    def accept_rotamer_probability_tables_compressed_data(self, data_stream: str) -> None:
-        """ Access to a compressed file that contains the rotamer probabilities
-
-        libcootapi will fill the rotamer probabilities tables from this compressed data stream (placeholder only) """
-
-    def contains_unsaved_models(self) -> bool:
-        """ Check if there are unsaved changes for this model
-
-        e.g. as yet not written to disk
-
-        :return: a flag of unsaved models state - e.g. if any of them are unsaved, then this returns True. """
-        return True
-
-    def save_unsaved_model_changes(self) -> None:
-        """ Save the unsaved model - this function has not yet been written! """
-
-    def geometry_init_standard(self) -> None:
-        """ Read the standard list of residues. """
-
-    def non_standard_residue_types_in_model(self, imol: int):
-        """ Get a list of non-standard residues in the given molecule
-
-        :param imol:  is the model molecule index
-
-        :return: a vector/list of non-standard residues """
-        pass
 
     def get_map_sampling_rate(self) -> float:
         """ Get map sampling rate
@@ -1341,10 +1203,18 @@ class molecules_container_t:
         :return: a vector/list of the map molecule indices. """
         pass
 
+    def dedust_map(self, imol: int) -> int:
+        """ dedust map
+
+        :param imol_map:  the map molecule index
+
+        :return: the map molecule index of the dedusted map or -1 on failure """
+        return 0
+
     def set_map_colour(self, imol: int, r: float, g: float, b: float) -> None:
         """ Set the map colour
 
-        The next time a map mesh is requested, it will have this colour. This does not affect the colour of the difference maps.
+        The next time a map mesh is requested, it will have this colour. This does not apply to/affect the colour of the difference maps.
 
         RGB colour codes, e.g. green is r:0, g: 255, b:0
 
@@ -1406,6 +1276,19 @@ class molecules_container_t:
 
         :param s:  is the map saturation, e.g. a number between 0 and 1, where 0 is grey and 1 is "lego-like" colour scheme. 0.5 is a nice middle value """
 
+
+    def get_map_vertices_histogram(self, imol: int, imol_map_for_sampling: int, position_x: float, position_y: float, position_z: float, radius: float, contour_level: float, n_bins: int):
+        """ Get map vertices histogram
+
+        Note not const because 
+
+        :param imol:  is the map molecule index 
+
+        :param n_bins:  is the number of bins - 40 is a reasonable default.
+
+        :return: the map vertices histogram """
+        pass
+
     def get_latest_sfcalc_stats(self):
         """ Get the latest sfcalc stats
 
@@ -1451,6 +1334,199 @@ class molecules_container_t:
 
         :return: the success status """
         return True
+
+
+
+    def testing_start_long_term_job(self, n_seconds: int) -> None:
+        """ Testing function
+
+        start a long-term job.
+
+        :param n_seconds:  is the number of seconds, if is 0, then run forever (or until interrupted) """
+
+    def testing_stop_long_term_job(self) -> None:
+        """ Testing function
+
+        stop the long-term job runnning """
+
+    def testing_interrogate_long_term_job(self):
+        """ Testing function
+
+        get the stats for the long-term job """
+        pass
+
+    def get_contouring_time(self):
+        """ Testing function
+
+        get the time for contouring in milliseconds """
+        pass
+
+    def set_max_number_of_threads(self, n_threads: int) -> None:
+        """ Testing function
+
+        set the maximum number of threads for both the thread pool and the vector of threads
+
+        :param n_threads:  is the number of threads """
+
+    def set_max_number_of_threads_in_thread_pool(self, n_threads: int) -> None:
+        """ Testing function
+
+        Deprecated name for the "set_max_number_of_threads()" function """
+
+    def test_the_threading(self, n_threads: int):
+        """ Testing function
+
+        get the time to run a test function in milliseconds
+
+        :param n_threads:  is the number of threads """
+        pass
+
+    def test_launching_threads(self, n_threads_per_batch: int, n_batches: int):
+        """ Testing function
+
+        :param n_threads_per_batch:  is the number of threads per batch 
+
+        :param n_batches:  is the number batches
+
+        :return: the time per batch in microseconds """
+        pass
+
+    def test_thread_pool_threads(self, n_threads: int):
+        """ Testing function
+
+        :param n_threads:  is the number of threads
+
+        :return: time in microseconds """
+        pass
+
+    def mmcif_tests(self, last_test_only: bool) -> int:
+        """ Testing function
+
+        a test for mmdb/gemmi/mmcif functionality
+
+        :param last_test_only:  is True to mean that only that last test should be run. The default is False. This is useful to set to True while a test is being developed.
+
+        :return: the success status: 1 means that all the tests passed. """
+        return 0
+
+    def get_molecule_name(self, imol: int) -> str:
+        """ Get the molecule name
+
+        :param imol:  is the model molecule index
+
+        :return: the name of the molecule """
+        return 'a-string'
+
+    def set_molecule_name(self, imol: int, new_name: str) -> None:
+        """ Set the molecule name
+
+        :param imol:  is the model or map molecule index 
+
+        :param new_name:  is the new name of the model or map """
+
+    def display_molecule_names_table(self) -> None:
+        """ Debugging function: display the table of molecule and names. """
+
+    def is_valid_model_molecule(self, imol: int) -> bool:
+        """ Check if the model index is valid
+
+        e.g. if the molecule is a map you will have an invalid model
+
+        :param imol:  is the model molecule index
+
+        :return: True or False """
+        return True
+
+    def is_valid_map_molecule(self, imol_map: int) -> bool:
+        """ Check if the map index is valid
+
+        e.g. if the map is a model you will have an invalid map
+
+        :param imol_map:  is the map molecule index
+
+        :return: True or False """
+        return True
+
+    def is_a_difference_map(self, imol_map: int) -> bool:
+        """ Check if it the map is a difference map
+
+        :param imol_map:  is the map molecule index
+
+        :return: True or False """
+        return True
+
+    def new_molecule(self, name: str) -> int:
+        """ Create an empty molecule
+
+        :return: the index of the new molecule """
+        return 0
+
+    def close_molecule(self, imol: int) -> int:
+        """ Close the molecule (and delete dynamically allocated memory)
+
+        :param imol:  is the model molecule index
+
+        :return: 1 on successful closure and 0 on failure to close """
+        return 0
+
+    def end_delete_closed_molecules(self) -> None:
+        """ Delete the most recent/last closed molecule in the molecule vector, until the first non-closed molecule is found (working from the end) """
+
+    def pop_back(self) -> None:
+        """ Delete the most recent/last molecule in the molecule vector. """
+
+    def clear(self) -> None:
+        """ Delete all molecules. """
+
+    def get_eigenvalues(self, imol: int, chain_id: str, res_no: int, ins_code: str):
+        """ Get the eigenvalues of the specified residue
+
+        :param imol:  is the model molecule index 
+
+        :param chain_id:  e.g. "A" for chain A 
+
+        :param res_no:  is the residue number, e.g. 12 
+
+        :param ins_code:  is the insertion code, e.g. "A"
+
+        :return: the eigenvalues of the atoms in the specified residue """
+        pass
+
+    def test_origin_cube(self):
+        """ Get a simple test mesh
+
+        :return: the mesh of a unit solid cube at the origin """
+        pass
+
+    def fill_rotamer_probability_tables(self) -> None:
+        """ Fill the rotamer probability tables (currently not ARG and LYS) """
+
+    def accept_rotamer_probability_tables_compressed_data(self, data_stream: str) -> None:
+        """ Access to a compressed file that contains the rotamer probabilities
+
+        libcootapi will fill the rotamer probabilities tables from this compressed data stream (placeholder only) """
+
+    def contains_unsaved_models(self) -> bool:
+        """ Check if there are unsaved changes for this model
+
+        e.g. as yet not written to disk
+
+        :return: a flag of unsaved models state - e.g. if any of them are unsaved, then this returns True. """
+        return True
+
+    def save_unsaved_model_changes(self) -> None:
+        """ Save the unsaved model - this function has not yet been written! """
+
+    def geometry_init_standard(self) -> None:
+        """ Read the standard list of residues. """
+
+    def non_standard_residue_types_in_model(self, imol: int):
+        """ Get a list of non-standard residues in the given molecule
+
+        :param imol:  is the model molecule index
+
+        :return: a vector/list of non-standard residues """
+        pass
 
     def auto_fit_rotamer(self, imol: int, chain_id: str, res_no: int, ins_code: str, alt_conf: str, imol_map: int) -> int:
         """ Auto-fit rotamer
@@ -1791,17 +1867,18 @@ class molecules_container_t:
         :return: 1 on a successful fill, 0 on failure. """
         return 0
 
-    def flip_peptide(self, imol: int, atom_spec: str, alt_conf: str) -> int:
-        """ Flip peptide
+    def add_named_glyco_tree(self, imol_model: int, imol_map: int, glycosylation_name: str, asn_chain_id: str, asn_res_no: int) -> None:
+        """ Add N-linked glycosylation
 
-        :param imol:  is the model molecule index 
+        :param imol_model:  is the model molecule index 
 
-        :param atom_spec:  is the atom specifier, atom_spec_t("A", 10, "", " CA ", "") 
+        :param imol_map:  is the map molecule index 
 
-        :param alt_conf:  is the alternate conformation, e.g. "A" or "B"
+        :param glycosylation_name:  is the type of glycosylation, one of: "NAG-NAG-BMA" or "high-mannose" or "hybrid" or "mammalian-biantennary" or "plant-biantennary" 
 
-        :return: 1 on a successful flip """
-        return 0
+        :param asn_chain_id:  is the chain-id of the ASN to which the carbohydrate is to be added 
+
+        :param asn_res_no:  is the residue number of the ASN to which the carbohydrate is to be added """
 
     def flip_peptide_using_cid(self, imol: int, atom_cid: str, alt_conf: str) -> int:
         """ Flip peptide using cid
@@ -1896,6 +1973,14 @@ class molecules_container_t:
         :param imol:  is the model molecule index
 
         :return: the molecule centre """
+        pass
+
+    def get_radius_of_gyration(self, imol: int):
+        """ Get Radius of Gyration
+
+        :param imol:  is the model molecule index
+
+        :return: the molecule centre. If the number is less than zero, there was a problem finding the molecule or atoms. """
         pass
 
     def copy_molecule(self, imol: int) -> int:
@@ -2243,8 +2328,18 @@ class molecules_container_t:
 
         :param imol:  is the model molecule index """
 
+    def set_logging_level(self, level: str) -> None:
+        """ Control the logging
+
+        :param level:  is the logging level, level is either "LOW" or "HIGH" or "DEBUGGING" """
+
+    def set_logging_file(self, file_name: str) -> None:
+        """ make the logging output go to a file
+
+        :param file_name:  the looging file name """
+
     def set_use_rama_plot_restraints(self, state: bool) -> None:
-        """ Turn on or off rama restraints
+        """ Turn on or off ramachandran restraints
 
         :param state:  is True to mean that it is enabled """
 
@@ -2399,10 +2494,11 @@ class molecules_container_t:
         :param mode:  is currently unused """
         pass
 
-    def read_extra_restraints(self, imol: int, file_name: str) -> None:
+    def read_extra_restraints(self, imol: int, file_name: str) -> int:
         """ Read extra restraints (e.g. from ProSMART)
 
         :param imol:  is the model molecule index """
+        return 0
 
     def clear_extra_restraints(self, imol: int) -> None:
         """ Clear the extra restraints
@@ -2430,7 +2526,7 @@ class molecules_container_t:
 
         :param output_prefix:  is the prefix of the output filename, e.g. "ref-1" 
 
-        :param key_value_pairs:  is a dictionary of key-value pairs for the servalcat keywords, e.g. "resolution": 2.05
+        :param key_value_pairs:  is a dictionary of key-value pairs for the servalcat keywords, e.g. resolution: 2.05
 
         :return: the imol of the refined model. """
         return 0
@@ -2644,21 +2740,45 @@ class molecules_container_t:
         pass
 
     def get_overlaps(self, imol: int):
-        """ 
-
-        :param imol:  is the model molecule index """
-        pass
-
-    def get_overlaps_for_ligand(self, imol: int, cid_ligand: str):
-        """ 
+        """ Get Atom Overlaps. 
 
         :param imol:  is the model molecule index 
 
-        :param cid_ligand:  is the ligand selection CID e.g "//A/15" (ligand 15 of chain A) """
+        :return: a vector of atom overlap objects """
+        pass
+
+    def get_atom_overlap_score(self, imol: int) -> float:
+        """ Get the atom overlap score
+
+        :param imol:  the model molecule index 
+
+        :return: the overlap score - a negative number indicates failure """
+        return 0.0
+
+    def get_overlaps_for_ligand(self, imol: int, cid_ligand: str):
+        """ Gat Atom Overlaps for a ligand or residue. 
+
+        :param imol:  is the model molecule index 
+
+        :param cid_ligand:  is the ligand selection CID e.g "//A/15" (ligand 15 of chain A) 
+
+        :return: a vector of atom overlap objects """
+        pass
+
+    def get_atom_differences(self, imol1: int, imol2: int):
+        """ Get the atom differences between two molecules typically after refinement
+
+        :param imol1:  is the first model molecule index 
+
+        :param imol2:  is the second model molecule index
+
+        :return: a vector/list of `positioned_atom_spec_t` """
         pass
 
     def density_fit_analysis(self, imol_model: int, imol_map: int):
-        """ Density fit validation information
+        """ Density fit validation information.
+
+        This function returns the sum of the densiy of the atoms in the residue
 
         :param imol_model:  is the model molecule index 
 
@@ -2672,6 +2792,16 @@ class molecules_container_t:
 
         :return: the sum of the density of the given atoms in the specified CID return -1001 on failure to find the residue or any atoms in the residue or if imol_map is not a map """
         pass
+
+    def get_number_of_atoms_in_residue(self, imol: int, residue_cid: str) -> int:
+        """ get the number of atoms in a given residue
+
+        :param imol:  is the model molecule index 
+
+        :param residue_cid:  is the selection CID e.g "//A/15" (residue 15 of chain A) 
+
+        :return: the number of atoms in the residue, or -1 on failure """
+        return 0
 
     def density_correlation_analysis(self, imol_model: int, imol_map: int):
         """ Get the density correlation validation information
@@ -2725,6 +2855,16 @@ class molecules_container_t:
         :param imol:  is the model molecule index
 
         :return: a negative number on failure """
+        return 0.0
+
+    def get_temperature_factor_of_atom(self, imol: int, atom_cid: str) -> float:
+        """ Get the atom temperature factor
+
+        :param imol:  is the model molecule index 
+
+        :param atom_cid:  is the selection cid for the atom
+
+        :return: a negative number on failure, otherwise the temperature factor """
         return 0.0
 
     def get_interesting_places(self, imol: int, mode: str):
@@ -2801,6 +2941,11 @@ class molecules_container_t:
         :return: a list of spheres on the surface of the pore """
         pass
 
+    def mmrrcc(self, imol: int, chain_id: str, imol_map: int):
+        """         Sphinx-Doc-Placeholder"""
+        pass
+
+
     def fourier_shell_correlation(self, imol_map_1: int, imol_map_2: int):
         """ Fourier Shell Correlation (FSC) between maps
 
@@ -2838,6 +2983,26 @@ class molecules_container_t:
 
         :return: a `validation_information_t` object """
         pass
+
+    def get_mean_and_variance_of_density_for_non_water_atoms(self, imol_coords: int, imol_map: int):
+        """ get mean and variance of map at non-waters
+
+        :param imol_model:  is the model molecule index 
+
+        :param imol_map:  is the map molecule index
+
+        :return: the mean and variance or a negative number on failure """
+        pass
+
+    def get_spherical_variance(self, imol_map: int, imol_model: int, atom_cid: str, mean_density_other_atoms: float) -> float:
+        """ Get spherical variance - typically for water atoms
+
+        :param imol_model:  is the model molecule index 
+
+        :param imol_map:  is the map molecule index
+
+        :return: the variance or a negative number on failure """
+        return 0.0
 
     def calculate_new_rail_points(self) -> int:
         """ Calling this adds to the rail_points history. Make this pairs when we add model scoring
@@ -3008,7 +3173,7 @@ class molecules_container_t:
 
         :param imol_ligand:  is the ligand molecule index 
 
-        :param n_rmsd:  number of sd, e.g. 4.8 
+        :param n_rmsd:  the number of sd used as a cut-off for the map level when finding clusters, e.g. 1.2 
 
         :param use_conformers:  is True for flexible ligands 
 
@@ -3117,18 +3282,20 @@ class molecules_container_t:
         :return: the string for the SVG representation. """
         return 'a-string'
 
-    def get_svg_for_2d_ligand_environment_view(self, imol: int, residue_cid: str) -> str:
+    def get_svg_for_2d_ligand_environment_view(self, imol: int, residue_cid: str, add_key: bool) -> str:
         """ Get SVG for 2d ligand environment view (FLEV)
 
         The caller should make sure that the dictionary for the ligand has been loaded - this function won't do that. It will add hydrogen atoms if needed.
 
         From time to time (depending on the ligand) this function will fail to produce a result.
 
-        Not const because get_monomer_restraints_at_least_minimal() is called. 
+        Not const because get_monomer_restraints_at_least_minimal() is called. Hmm.
 
         :param imol:  is the model molecule index 
 
         :param residue_cid:  is the cid for the residue 
+
+        :param add_key:  should a key be added to the figure? 
 
         :return: an svg string of the representation. On failure, return an empty string. """
         return 'a-string'
@@ -3140,6 +3307,14 @@ class molecules_container_t:
 
         :return: a vector/list of residue specifiers - the residue name is encoded in the `string_user_data` data item of the residue specifier """
         pass
+
+    def try_read_dictionaries_for_new_residue_types(self, imol: int) -> bool:
+        """ Try to read the dictionaries for any residue type in imol that as yet does not have a dictionary
+
+        :param imol:  is the model molecule index 
+
+        :return: true if there were no dictionary for new types that couldn't be read. """
+        return True
 
     def get_dictionary_conformers(self, comp_id: str, imol_enc: int, remove_internal_clash_conformers: bool):
         """ Get the conformers that can be generated by variation around rotatable bonds as described in the dictionary.
@@ -3193,6 +3368,13 @@ class molecules_container_t:
         :return: a unit-vector end-cap octohemisphere mesh """
         pass
 
+    def get_max_number_of_simple_mesh_vertices(self) -> int:
+        """         Sphinx-Doc-Placeholder"""
+        return 0
+
+    def set_max_number_of_simple_mesh_vertices(self, n: int) -> None:
+        """         Sphinx-Doc-Placeholder"""
+
     def pae_png(self, pae_file_name: str) -> str:
         """ Predicted alignment error (AlphaFold) 
 
@@ -3234,6 +3416,7 @@ class molecules_container_t:
 
     def test_function(self, s: str) -> None:
         """         Sphinx-Doc-Placeholder"""
+
 
 
 

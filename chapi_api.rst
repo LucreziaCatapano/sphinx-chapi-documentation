@@ -50,6 +50,7 @@ Molecular Information
     .. automethod:: get_sequence_info
     .. automethod:: get_molecule_name
     .. automethod:: get_molecule_centre
+    .. automethod:: get_radius_of_gyration
     .. automethod:: get_molecule_diameter
     .. automethod:: get_chains_in_model
     .. automethod:: get_ncs_related_chains
@@ -62,11 +63,14 @@ Molecular Information
     .. automethod:: get_residue_CA_position
     .. automethod:: get_residue_average_position
     .. automethod:: get_residue_sidechain_average_position
+    .. automethod:: get_residue_using_cid
     .. automethod:: residues_with_missing_atoms
     .. automethod:: residue_is_nucleic_acid 
     .. automethod:: get_missing_residue_ranges
     .. automethod:: get_number_of_atoms
+    .. automethod:: get_number_of_atoms_in_residue
     .. automethod:: get_number_of_hydrogen_atoms
+    .. automethod:: get_atom_using_cid
     .. automethod:: get_active_atom
     .. automethod:: get_imol_enc_any
     .. automethod:: get_hb_type
@@ -74,6 +78,7 @@ Molecular Information
     .. automethod:: get_symmetry
     .. automethod:: get_mutation_info
     .. automethod:: get_HOLE
+    .. automethod:: get_types_in_molecule
 
 
 Geometry and Dictionaries
@@ -100,6 +105,7 @@ Geometry and Dictionaries
     .. automethod:: get_acedrg_atom_types_for_ligand
     .. automethod:: get_dictionary_conformers
     .. automethod:: get_SMILES_for_residue_type
+    .. automethod:: try_read_dictionaries_for_new_residue_types
 
 
 Model Manipulation
@@ -164,7 +170,7 @@ Model Manipulation
     .. automethod:: fill_partial_residue
     .. automethod:: fill_partial_residues
     .. automethod:: fill_partial_residue_using_cid
-    .. automethod:: flip_peptide
+    .. automethod:: add_named_glyco_tree
     .. automethod:: flip_peptide_using_cid
     .. automethod:: eigen_flip_ligand
     .. automethod:: eigen_flip_ligand_using_cid
@@ -242,6 +248,7 @@ Map Tools
     .. automethod:: get_map_contours_mesh_using_other_map_for_colours
     .. automethod:: set_map_colour_saturation
     .. automethod:: scale_map
+    .. automethod:: get_map_vertices_histogram
 
 
 Structure Factor
@@ -265,6 +272,7 @@ Real Space Refinement
 
     .. automethod:: multiply_residue_temperature_factors
     .. automethod:: get_median_temperature_factor
+    .. automethod:: get_temperature_factor_of_atom
     .. automethod:: set_temperature_factors_using_cid
     .. automethod:: set_occupancy
     .. automethod:: shift_field_b_factor_refinement
@@ -357,8 +365,10 @@ Validation
     .. automethod:: get_overlap_dots_for_ligand
     .. automethod:: get_overlaps
     .. automethod:: get_overlaps_for_ligand
+    .. automethod:: get_atom_overlap_score
     .. automethod:: density_fit_analysis
     .. automethod:: get_sum_density_for_atoms_in_residue
+    .. automethod:: get_atom_differences
     .. automethod:: density_correlation_analysis
     .. automethod:: rotamer_analysis
     .. automethod:: ramachandran_analysis
@@ -369,6 +379,9 @@ Validation
     .. automethod:: pepflips_using_difference_map
     .. automethod:: unmodelled_blobs
     .. automethod:: find_water_baddies
+    .. automethod:: get_spherical_variance
+    .. automethod:: get_mean_and_variance_of_density_for_non_water_atoms
+
     
     
 
@@ -387,6 +400,8 @@ Molecular Graphics Representation
     .. automethod:: get_molecular_representation_mesh
     .. automethod:: get_gaussian_surface
     .. automethod:: get_chemical_features_mesh
+    .. automethod:: set_gltf_pbr_roughness_factor
+    .. automethod:: set_gltf_pbr_metalicity_factor
     .. automethod:: export_map_molecule_as_gltf
     .. automethod:: export_model_molecule_as_gltf
     .. automethod:: export_molecular_representation_as_gltf
@@ -410,10 +425,10 @@ Molecular Graphics Representation
     .. automethod:: M2T_updateIntParameter
     .. automethod:: get_octahemisphere
     .. automethod:: get_svg_for_residue_type
+    .. automethod:: get_svg_for_2d_ligand_environment_view
     .. automethod:: write_png
     .. automethod:: pae_png
     .. automethod:: export_chemical_features_as_gltf
-    .. automethod:: get_svg_for_2d_ligand_environment_view
 
 
 Testing functions
