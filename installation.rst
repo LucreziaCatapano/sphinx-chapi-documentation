@@ -43,10 +43,10 @@ To install chapi using conda, follow these steps:
 
      conda config --set channel_priority strict
    
-2. Note: If your Conda environment uses Python 3.13 or newer, `coot-headless` will not be installable due to version constraints. Use Python 3.12 instead.
+2. Note: Python bindings for Coot are available for versions 3.9, 3.10, 3.11, 3.12, and 3.13. If no Python version is specified, Python 3.13 will be installed by default.
    Create a new environment and install coot-headless::
 
-     conda create -n coot-env python=3.12 coot-headless -c conda-forge -c bioconda
+     conda create -n coot-env coot-headless -c conda-forge -c bioconda
    
 
 3. Activate the environment::
