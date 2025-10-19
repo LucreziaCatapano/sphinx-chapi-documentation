@@ -8,6 +8,31 @@ CCP4
 
 To install the latest chapi library, you have several options:
 
+Install via Conda
+-----------------
+
+Thanks to `Ueno M. <https://eunos-1128.github.io/>`_ for the conda packaging of coot-headless.
+
+To install chapi using conda, follow these steps:
+
+1. Add the conda-forge channel and set strict channel priority::
+
+     conda config --add channels conda-forge
+
+     conda config --set channel_priority strict
+   
+2. Note: Python bindings for Coot are available for versions 3.9, 3.10, 3.11, 3.12, and 3.13. If no Python version is specified, Python 3.13 will be installed by default.
+   Create a new environment and install coot-headless::
+
+     conda create -n coot-env coot-headless -c conda-forge -c bioconda
+   
+
+3. Activate the environment::
+
+     conda activate coot-env
+   
+
+
 Install via build-it-3-3 script
 -------------------------------
 
@@ -32,24 +57,4 @@ Alternatively, you can install coot (which includes chapi) using **Homebrew**::
 
    brew install brewsci/bio/coot
 
-Install via Conda
------------------
-
-To install chapi using conda, follow these steps:
-
-1. Add the conda-forge channel and set strict channel priority::
-
-     conda config --add channels conda-forge
-
-     conda config --set channel_priority strict
-   
-2. Note: Python bindings for Coot are available for versions 3.9, 3.10, 3.11, 3.12, and 3.13. If no Python version is specified, Python 3.13 will be installed by default.
-   Create a new environment and install coot-headless::
-
-     conda create -n coot-env coot-headless -c conda-forge -c bioconda
-   
-
-3. Activate the environment::
-
-     conda activate coot-env
    
