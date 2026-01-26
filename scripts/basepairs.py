@@ -1,34 +1,34 @@
 import pandas as pd
 import numpy as np
-import chapi
+import coot_headless_api
 
 
 desired_atoms = {"O6", "N4", "N1", "N3", "N2", "O2"}
 
 def check_d(pdb_path: str, residue_numbers: list[int], distance_threshold: float = 3.1):
     
-    mc = chapi.molecules_container_t(False)
-    mc.set_use_gemmi(False)
+    chapi = coot_headless_api.molecules_container_t(False)
+    chapi.set_use_gemmi(False)
     
     # Read molecular coordinates and maps
-    imol = mc.read_coordinates(pdb_path)
+    imol = chapi.read_coordinates(pdb_path)
     distances_list = []
 
     for current_residue_res_no in residue_numbers:
         current_residue_cid = f"//B/{current_residue_res_no}"
 
-        neighbours = mc.get_residues_near_residue(imol, 
+        neighbours = chapi.get_residues_near_residue(imol, 
                                                   current_residue_cid, 
                                                   distance_threshold)
         for n in neighbours:
-            name = mc.get_residue_name(imol, n.chain_id, n.res_no, n.ins_code)
+            name = chapi.get_residue_name(imol, n.chain_id, n.res_no, n.ins_code)
             if name == "HOH":
                 continue  # Ignore water molecules
             delta_res_no = n.res_no - current_residue_res_no
             if np.abs(delta_res_no) == 1:
                 continue  # Ignore adjacent residues
             neighbour_cid = f"//{n.chain_id}/{n.res_no}"
-            distances = mc.get_distances_between_atoms_of_residues(imol, 
+            distances = chapi.get_distances_between_atoms_of_residues(imol, 
                                                                    current_residue_cid, 
                                                                    neighbour_cid, 
                                                                    distance_threshold)

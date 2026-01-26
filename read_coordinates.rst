@@ -16,20 +16,20 @@ Chapi supports the following coordinate file formats:
 
 
 
-The :code:`read_coordinates()` is a function provided by the :code:`molecules_container_t` class of the :code:`chapi` module, designed to read files in different format, including mmCIF or PDB format.
+The :code:`read_coordinates()` is a function provided by the :code:`molecules_container_t` class of the :code:`coot_headless_api` module, designed to read files in different format, including mmCIF or PDB format.
 Additionally, the function :code:`read_pdb()` can be used as well to read PDB and mmCIF files.
 
 .. code-block:: python
 
-   import chapi
+   import coot_headless_api
 
-   mc = chapi.molecules_container_t(True)
+   chapi = coot_headless_api.molecules_container_t(True)
 
    # read PDB file
-   imol_pdb = mc.read_coordinates("rnase.pdb")
+   imol_pdb = chapi.read_coordinates("rnase.pdb")
 
    # read mmCIF file
-   imol_mmcif = mc.read_coordinates("rnase.cif")
+   imol_mmcif = chapi.read_coordinates("rnase.cif")
 
 
 MTZ and Map Files
@@ -40,7 +40,7 @@ MTZ file format can be read by using the :code:`read_mtz()` function.
 
 .. code-block:: python
 
-   imol_mtz = mc.read_mtz("rnase-1.8-all_refmac1.mtz", "FWT", "PHWT", "W", False, False)
+   imol_mtz = chapi.read_mtz("rnase-1.8-all_refmac1.mtz", "FWT", "PHWT", "W", False, False)
 
 The latest two arguments are:
 
@@ -55,7 +55,7 @@ EM maps are typically in MRC/CCP4 map format
 
 .. code-block:: python
 
-   imol_map = mc.read_ccp4_map("emd_16890.map", False)
+   imol_map = chapi.read_ccp4_map("emd_16890.map", False)
 
 The latest argument is :code:`is_a_difference_map` (bool): the flag to set the map as a difference map
 
@@ -70,23 +70,22 @@ and map files (MTZ and map) respectively.
 .. code-block:: python
 
    # read mmCIF file
-   imol_mmcif = mc.read_coordinates("rnase.cif")
+   imol_mmcif = chapi.read_coordinates("rnase.cif")
 
    # write mmCIF file
-   imol_mmcif_new = mc.write_coordinates(imol_mmcif, "rnase-new.cif")
+   imol_mmcif_new = chapi.write_coordinates(imol_mmcif, "rnase-new.cif")
 
    # read MTZ file
-   imol_mtz = mc.read_mtz("rnase-1.8-all_refmac1.mtz", "FWT", "PHWT", "W", False, False)
+   imol_mtz = chapi.read_mtz("rnase-1.8-all_refmac1.mtz", "FWT", "PHWT", "W", False, False)
 
    # write MTZ file
-   imol_mtz_new = mc.write_map(imol_mtz, "rnase-1.8-all_refmac1_new.mtz")
+   imol_mtz_new = chapi.write_map(imol_mtz, "rnase-1.8-all_refmac1_new.mtz")
 
    # read map file
-   imol_map = mc.read_ccp4_map("emd_16890.map", False)
+   imol_map = chapi.read_ccp4_map("emd_16890.map", False)
 
    # write map file
-   imol_map_new = mc.write_map(imol_map, "emd_16890_new.map")
-
+   imol_map_new = chapi.write_map(imol_map, "emd_16890_new.map")
 
 .. Molecular Models
 .. ##################
@@ -126,25 +125,25 @@ Examples
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. doctest::
    
-   >>> import chapi
+   >>> import coot_headless_api
 
-   >>> mc = chapi.molecules_container_t(False)
-   >>> mc.set_use_gemmi(False)
+   >>> chapi = coot_headless_api.molecules_container_t(False)
+   >>> chapi.set_use_gemmi(False)
 
-   >>> imol = mc.read_pdb("rnase.pdb")
-   >>> molecule_diameter = mc.get_molecule_diameter(imol)
+   >>> imol = chapi.read_pdb("rnase.pdb")
+   >>> molecule_diameter = chapi.get_molecule_diameter(imol)
    >>> print("molecule diameter:", round(molecule_diameter))
    molecule diameter: 56
 
-   >>> number_of_atoms = mc.get_number_of_atoms(imol)
+   >>> number_of_atoms = chapi.get_number_of_atoms(imol)
    >>> print("number of atoms:", number_of_atoms)
    number of atoms: 1465
 
-   >>> chains = mc.get_chains_in_model(imol)
+   >>> chains = chapi.get_chains_in_model(imol)
    >>> print("chains:", chains)
    chains: ['A', 'B']
 
-   >>> residue45_name = mc.get_residue_name(imol, 'A', 45, '')
+   >>> residue45_name = chapi.get_residue_name(imol, 'A', 45, '')
    >>> print("residue 45 name:", residue45_name)
    residue 45 name: PRO 
 
@@ -155,13 +154,13 @@ Examples
 
 .. doctest::
 
-   >>> import chapi
+   >>> import coot_headless_api
 
-   >>> mc = chapi.molecules_container_t(False)
-   >>> mc.set_use_gemmi(False)
+   >>> chapi = coot_headless_api.molecules_container_t(False)
+   >>> chapi.set_use_gemmi(False)
 
-   >>> imol = mc.read_pdb("1mcy.pdb")
-   >>> header_info = mc.get_header_info(imol)
+   >>> imol = chapi.read_pdb("1mcy.pdb")
+   >>> header_info = chapi.get_header_info(imol)
 
    INFO:: There are 8 helices and 0 sheets
                Helix info: 
