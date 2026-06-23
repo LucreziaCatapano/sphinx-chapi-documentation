@@ -6,9 +6,18 @@ CCP4
 
 **chapi** is available as a module in ccp4-python (Python 3.9.18) starting from `CCP4 version 9.0 <https://www.ccp4.ac.uk/download/index.php#os=macos>`_.
 
-To install the latest chapi library, you have several options:
 
-Install via Conda
+PyPI
+-----------------
+
+To install chapi via pip, run the following command::
+     
+    pip install coot-headless-api
+
+with Python 3.10 -> 3.13, available on Linux and macOS (not yet on Windows).
+
+
+Conda
 -----------------
 
 Thanks to `Ueno M. <https://eunos-1128.github.io/>`_ for the conda packaging of coot-headless.
@@ -32,8 +41,7 @@ To install chapi using conda, follow these steps:
      conda activate coot-env
    
 
-
-Install via build-it-3-3 script
+build-it-3-3 script
 -------------------------------
 
 1. Download the **build-it-3-3** script from:
@@ -50,7 +58,7 @@ Install via build-it-3-3 script
 
 The script will handle dependencies and attempt to build a Python environment with the latest chapi. Build logs will be saved in `~/public_html/build_logs`.
 
-Install via Homebrew
+Homebrew
 --------------------
 
 Alternatively, you can install coot (which includes chapi) using **Homebrew**::
