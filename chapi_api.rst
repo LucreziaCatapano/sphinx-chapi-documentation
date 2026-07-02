@@ -36,7 +36,7 @@ Reading and Writing
     .. automethod:: read_ccp4_map
     .. automethod:: write_coordinates
     .. automethod:: write_map
-
+    .. automethod:: read_amber_trajectory
 
 Molecular Information
 ---------------------------------------------------
@@ -64,6 +64,7 @@ Molecular Information
     .. automethod:: get_residue_average_position
     .. automethod:: get_residue_sidechain_average_position
     .. automethod:: get_residue_using_cid
+    .. automethod:: get_residue_type
     .. automethod:: residues_with_missing_atoms
     .. automethod:: residue_is_nucleic_acid 
     .. automethod:: get_missing_residue_ranges
@@ -106,6 +107,9 @@ Geometry and Dictionaries
     .. automethod:: get_dictionary_conformers
     .. automethod:: get_SMILES_for_residue_type
     .. automethod:: try_read_dictionaries_for_new_residue_types
+    .. automethod:: pyrogen_from_SMILES
+    .. automethod:: pyrogen_from_ccd_file
+
 
 
 Model Manipulation
@@ -197,6 +201,12 @@ Model Manipulation
     .. automethod:: get_lsq_matrix
     .. automethod:: transform_map_using_lsq_matrix
     .. automethod:: rotate_around_bond
+    .. automethod:: set_residue_properties
+    .. automethod:: clear_residue_properties
+    .. automethod:: add_terminal_residue_directly_using_bucca_ml_growing
+    .. automethod:: add_terminal_residue_directly_using_bucca_ml_growing_using_cid
+    .. automethod:: get_molecule_selection_as_json
+
     
 
 Map Tools
@@ -243,12 +253,14 @@ Map Tools
     .. automethod:: get_map_section_texture
     .. automethod:: get_number_of_map_sections
     .. automethod:: set_map_colour
+    .. automethod:: set_colour_map_for_map_coloured_by_other_map
     .. automethod:: set_map_is_contoured_with_thread_pool
     .. automethod:: get_map_contours_mesh
     .. automethod:: get_map_contours_mesh_using_other_map_for_colours
     .. automethod:: set_map_colour_saturation
     .. automethod:: scale_map
     .. automethod:: get_map_vertices_histogram
+    .. automethod:: dedust_map
 
 
 Structure Factor
@@ -280,6 +292,7 @@ Real Space Refinement
     .. automethod:: adjust_refinement_residue_name
     .. automethod:: refine_residues_using_atom_cid
     .. automethod:: refine_residues
+    .. automethod:: set_residue_to_rotamer_number
     .. automethod:: refine_residue_range
     .. automethod:: minimize_energy
     .. automethod:: fix_atom_selection_during_refinement
@@ -363,7 +376,7 @@ Validation
     .. automethod:: match_ligand_torsions_and_position_using_cid
     .. automethod:: get_overlap_dots
     .. automethod:: get_overlap_dots_for_ligand
-    .. automethod:: get_overlaps
+    .. automethod:: get_atom_overlaps
     .. automethod:: get_overlaps_for_ligand
     .. automethod:: get_atom_overlap_score
     .. automethod:: density_fit_analysis
@@ -381,6 +394,12 @@ Validation
     .. automethod:: find_water_baddies
     .. automethod:: get_spherical_variance
     .. automethod:: get_mean_and_variance_of_density_for_non_water_atoms
+    .. automethod:: get_rdkit_mol_pickle_base64
+    .. automethod:: pyrogen_from_rdkit_mol_pickle_base64
+    .. automethod:: get_pucker_analysis_info
+    .. automethod:: get_mmrrcc
+    .. automethod:: mmrrcc
+
 
     
     
@@ -399,7 +418,12 @@ Molecular Graphics Representation
     .. automethod:: get_goodsell_style_mesh_instanced
     .. automethod:: get_molecular_representation_mesh
     .. automethod:: get_gaussian_surface
+    .. automethod:: get_gaussian_surface_for_atom_selection
+    .. automethod:: gaussian_surface_to_map_molecule
+    .. automethod:: gaussian_surface_to_map_molecule_v2
     .. automethod:: get_chemical_features_mesh
+    .. automethod:: get_max_number_of_simple_mesh_vertices
+    .. automethod:: set_max_number_of_simple_mesh_vertices
     .. automethod:: set_gltf_pbr_roughness_factor
     .. automethod:: set_gltf_pbr_metalicity_factor
     .. automethod:: export_map_molecule_as_gltf
@@ -440,6 +464,7 @@ Testing functions
     .. automethod:: testing_start_long_term_job
     .. automethod:: testing_stop_long_term_job
     .. automethod:: testing_interrogate_long_term_job
+    .. automethod:: test_function
     .. automethod:: get_contouring_time
     .. automethod:: set_max_number_of_threads
     .. automethod:: set_max_number_of_threads_in_thread_pool
@@ -448,6 +473,8 @@ Testing functions
     .. automethod:: test_thread_pool_threads
     .. automethod:: mmcif_tests
     .. automethod:: test_origin_cube
+    .. automethod:: set_logging_level
+    .. automethod:: set_logging_file
 
 
 Blender functions

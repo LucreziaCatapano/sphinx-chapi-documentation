@@ -145,6 +145,24 @@ class molecules_container_t:
         :return: the new molecule index on success and -1 on failure """
         return 0
 
+    def read_amber_trajectory(self, imol_coords: int, trajectory_file_name: str, start_frame: int, end_frame: int, stride: int) -> int:
+        """ Read an Amber NetCDF trajectory file
+
+        Reads trajectory frames and creates a multi-model molecule. Requires NetCDF support to be compiled in (
+
+        :param imol_coords:  is the model molecule index providing the topology (atom names, residues) 
+
+        :param trajectory_file_name:  is the path to the Amber NetCDF trajectory file (.nc) 
+
+        :param start_frame:  is the first frame to read (0-indexed), -1 for first frame 
+
+        :param end_frame:  is the last frame to read (0-indexed), -1 for last frame 
+
+        :param stride:  read every nth frame (1 = all frames)
+
+        :return: the new molecule index on success and -1 on failure """
+        return 0
+
     def print_secondary_structure_info(self, imol: int) -> None:
         """ Print the secondary structure information
 
@@ -368,6 +386,16 @@ class molecules_container_t:
 
         :param occ_new:  is the new occupancy """
 
+    def get_molecule_selection_as_json(self, imol: int, cid: str) -> str:
+        """ Get atom selection as json
+
+        :param imol:  is the model molecule index 
+
+        :param cid:  is the atom selection CID e.g "//A/15/OH" (atom OH in residue 15 of chain A) 
+
+        :return: a json string that contains a molecule hierarchy. The atom data include "x" "y" "z" "tempFactor" "occupancy" "name" "element" """
+        return 'a-string'
+
     def write_png(self, compound_id: str, imol: int, file_name: str) -> None:
         """ Write a PNG for the given compound_id.
 
@@ -410,7 +438,7 @@ class molecules_container_t:
         :return: a `simple_mesh_t` """
         pass
 
-    def get_bonds_mesh_instanced(self, imol: int, mode: str, against_a_dark_background: bool, bond_width: float, atom_radius_to_bond_width_ratio: float, show_atoms_as_aniso_flag: bool, show_aniso_atoms_as_ortep_flag: bool, draw_hydrogen_atoms_flag: bool, smoothness_factor: int):
+    def get_bonds_mesh_instanced(self, imol: int, mode: str, against_a_dark_background: bool, bond_width: float, atom_radius_to_bond_width_ratio: float, show_atoms_as_aniso_flag: bool, show_aniso_atoms_as_ortep_flag: bool, show_aniso_atoms_as_empty: bool, draw_hydrogen_atoms_flag: bool, smoothness_factor: int):
         """ Get the instanced bonds mesh.
 
         :param mode:  is "COLOUR-BY-CHAIN-AND-DICTIONARY" - more modes to follow 
@@ -432,7 +460,7 @@ class molecules_container_t:
         :return: a `instanced_mesh_t` """
         pass
 
-    def get_bonds_mesh_for_selection_instanced(self, imol: int, atom_selection_cid: str, mode: str, against_a_dark_background: bool, bond_width: float, atom_radius_to_bond_width_ratio: float, show_atoms_as_aniso_flag: bool, show_aniso_atoms_as_ortep_flag: bool, draw_hydrogen_atoms_flag: bool, smoothness_factor: int):
+    def get_bonds_mesh_for_selection_instanced(self, imol: int, atom_selection_cid: str, mode: str, against_a_dark_background: bool, bond_width: float, atom_radius_to_bond_width_ratio: float, show_atoms_as_aniso_flag: bool, show_aniso_atoms_as_ortep_flag: bool, show_aniso_atoms_as_empty_flag: bool, draw_hydrogen_atoms_flag: bool, smoothness_factor: int):
         """ As `get_bonds_mesh_instanced` above, but only return the bonds for the atom selection. Typically one would call this with a wider bond width than one would use for standards atoms (all molecule)
 
         :param atom_selection_cid:  e.g. "//A/15" (all the atoms in residue 15 of chain A) 
@@ -476,7 +504,7 @@ class molecules_container_t:
 
         glTF files can be imported into Blender or other 3D graphics applications
 
-        Same parameters as the `get_bonds_mesh` function. `draw_hydrogen_atoms_flag` and `draw_missing_residue_loops` are typically False. This API will change - we want to specify surfaces and ribbons too. """
+        Same parameters as the `draw_hydrogen_atoms_flag` and `draw_missing_residue_loops` are typically False. This API will change - we want to specify surfaces and ribbons too. """
 
     def export_molecular_representation_as_gltf(self, imol: int, atom_selection_cid: str, colour_scheme: str, style: str, secondary_structure_usage_flag: int, file_name: str) -> None:
         """ Export molecular representation as glTF file
@@ -617,8 +645,25 @@ class molecules_container_t:
         :return: a `simple_mesh_t` """
         pass
 
+    def set_residue_properties(self, imol: int, json_string: str) -> bool:
+        """ set the residue properties a list of propperty maps such as 
+
+        :param imol:  is the model molecule index 
+
+        :param json_string:  is the properties in JSON format 
+
+        :return: true """
+        return True
+
+    def clear_residue_properties(self, imol: int) -> None:
+        """ 
+
+        :param imol:  is the model molecule index """
+
     def get_gaussian_surface(self, imol: int, sigma: float, contour_level: float, box_radius: float, grid_scale: float, b_factor: float):
         """ Get a Gaussian surface representation
+
+        Waters are not included in the surface calculation
 
         :param imol:  is the model molecule index 
 
@@ -634,6 +679,70 @@ class molecules_container_t:
 
         :return: a `simple_mesh_t` composed of a number of Gaussian surfaces (one for each chain) """
         pass
+
+    def get_gaussian_surface_for_atom_selection(self, imol: int, cid: str, sigma: float, contour_level: float, box_radius: float, grid_scale: float, b_factor: float):
+        """ Get a Gaussian surface representation
+
+        Waters are not included in the surface calculation
+
+        :param imol:  is the model molecule index 
+
+        :param cid:  is the atom selection CID 
+
+        :param sigma:  default 4.4 
+
+        :param contour_level:  default 4.0 
+
+        :param box_radius:  default 5.0 
+
+        :param grid_scale:  default 0.7 
+
+        :param b_factor:  default 100.0 (use 0.0 for no FFT-B-factor smoothing)
+
+        :return: a `simple_mesh_t` composed of a number of Gaussian surfaces (one for each chain) """
+        pass
+
+    def gaussian_surface_to_map_molecule(self, imol_map_ref: int, imol_model: int, cid: str, sigma: float, box_radius: float, fft_b_factor: float) -> int:
+        """ Waters are not included in the surface calculation The map `imol_map_ref` is used to provide the cell and gridding.
+
+        :param imol_map_ref:  is the model molecule index 
+
+        :param imol_model:  is the model molecule index 
+
+        :param cid:  is the atom selection CID 
+
+        :param sigma:  default 4.4 
+
+        :param contour_level:  default 4.0 
+
+        :param box_radius:  default 5.0 
+
+        :param grid_scale:  default 0.7 
+
+        :param b_factor:  default 100.0 (use 0.0 for no FFT-B-factor smoothing)
+
+        :return: a new molecule index for the map or -1 on failur """
+        return 0
+
+    def gaussian_surface_to_map_molecule_v2(self, imol: int, cid: str, sigma: float, box_radius: float, grid_scale: float, fft_b_factor: float) -> int:
+        """ Waters are not included in the surface calculation
+
+        :param imol:  is the model molecule index 
+
+        :param cid:  is the atom selection CID 
+
+        :param sigma:  default 4.4 
+
+        :param contour_level:  default 4.0 
+
+        :param box_radius:  default 5.0 
+
+        :param grid_scale:  default 0.7 
+
+        :param b_factor:  default 100.0 (use 0.0 for no FFT-B-factor smoothing)
+
+        :return: a new molecule index for the map or -1 on failur """
+        return 0
 
     def get_chemical_features_mesh(self, imol: int, cid: str):
         """ Get chemical features for the specified residue
@@ -734,6 +843,8 @@ class molecules_container_t:
     def get_number_of_hydrogen_atoms(self, imol: int) -> int:
         """ Get number of hydrogen atoms
 
+        Count only the number of hydrogen atoms in the model number 1, not the sum from all models.
+
         :param imol:  is the model molecule index
 
         :return: the number of hydrogen atoms in the specified model, or -1 on error """
@@ -785,6 +896,16 @@ class molecules_container_t:
         :param ins_code:  is the insertion code, e.g. "A"
 
         :return: the residue name, return a blank string on residue not found. """
+        return 'a-string'
+
+    def get_residue_type(self, imol: int, cid: str) -> str:
+        """ Get the residue type
+
+        :param imol:  is the model molecule index 
+
+        :param cid:  is the selection CID e.g "//A/16" (residue 16 of chain A) 
+
+        :return: a string. Return an empty string on failure """
         return 'a-string'
 
     def get_SMILES_for_residue_type(self, residue_name: str, imol_enc: int) -> str:
@@ -997,14 +1118,12 @@ class molecules_container_t:
         return 0.0
 
     def set_map_sampling_rate(self, msr: float) -> None:
-        """ Set the map sampling rate
-
-        Higher numbers mean smoother maps, but they take longer to generate, longer to transfer, longer to parse and longer to draw
+        """ Set the map sampling rate. Higher numbers mean smoother maps, but they take longer to generate, longer to transfer, longer to parse and longer to draw
 
         :param msr:  is the map sampling rate to set, the default is 1.8 """
 
     def read_mtz(self, file_name: str, f: str, phi: str, weight: str, use_weight: bool, is_a_difference_map: bool) -> int:
-        """ Read the given mtz file
+        """ Read the given mtz file. 
 
         :param file_name:  is the name of the MTZ file 
 
@@ -1276,6 +1395,8 @@ class molecules_container_t:
 
         :param s:  is the map saturation, e.g. a number between 0 and 1, where 0 is grey and 1 is "lego-like" colour scheme. 0.5 is a nice middle value """
 
+    def set_colour_map_for_map_coloured_by_other_map(self, colour_table: list) -> None:
+        """         Sphinx-Doc-Placeholder"""
 
     def get_map_vertices_histogram(self, imol: int, imol_map_for_sampling: int, position_x: float, position_y: float, position_z: float, radius: float, contour_level: float, n_bins: int):
         """ Get map vertices histogram
@@ -1499,7 +1620,7 @@ class molecules_container_t:
         pass
 
     def fill_rotamer_probability_tables(self) -> None:
-        """ Fill the rotamer probability tables (currently not ARG and LYS) """
+        """ Fill the rotamer probability tables (currently not ARG and LYS). """
 
     def accept_rotamer_probability_tables_compressed_data(self, data_stream: str) -> None:
         """ Access to a compressed file that contains the rotamer probabilities
@@ -1527,6 +1648,22 @@ class molecules_container_t:
 
         :return: a vector/list of non-standard residues """
         pass
+
+    def get_rdkit_mol_pickle_base64(self, residue_name: str, imol_enc: int) -> str:
+        """ Extract ligand restraints from the dictionary store and make an rdkit molecule Result to be eaten by C++ only.
+
+        :param residue_name:  the residue name 
+
+        :param imol_enc:  the molecule for the ligand (typically is imol_enc_any) 
+
+        :return: an RDKit RDMol.
+
+        :param residue_name:  the residue name 
+
+        :param imol_enc:  the molecule for the ligand (typically is imol_enc_any) 
+
+        :return: a pickle string, return an empty string on failure. """
+        return 'a-string'
 
     def auto_fit_rotamer(self, imol: int, chain_id: str, res_no: int, ins_code: str, alt_conf: str, imol_map: int) -> int:
         """ Auto-fit rotamer
@@ -1582,6 +1719,18 @@ class molecules_container_t:
         :return: the change information. """
         pass
 
+    def set_residue_to_rotamer_number(self, imol: int, residue_cid: str, alt_conf: str, rotamer_number: int) -> int:
+        """ Change to the nth rotamer
+
+        :param imol:  is the model molecule index 
+
+        :param residue_cid:  is the atom selection CID e.g "//A/15" (all the atoms in residue 15 of chain A) 
+
+        :param alt_conf:  is the alternate conformation, e.g. "A" or "B"
+
+        :return: the state of the change. """
+        return 0
+
     def delete_using_cid(self, imol: int, cid: str, scope: str) -> tuple:
         """ Delete item
 
@@ -1630,7 +1779,7 @@ class molecules_container_t:
 
         :param ins_code:  is the insertion code, e.g. "A"
 
-        :return: 1 on successful deletion, return 0 on failure to delete. """
+        :return: 1 as first on successful deletion, return 0 on failure to delete. The second is the resulting atom count. """
 
     def delete_residue_using_cid(self, imol: int, cid: str) -> tuple:
         """ Delete residue using cid
@@ -2004,7 +2153,7 @@ class molecules_container_t:
     def copy_fragment_for_refinement_using_cid(self, imol: int, multi_cid: str) -> int:
         """ Copy a fragment given the multi_cid selection string for refinement
 
-        Use this in preference to `copy_fragment_using_cid` when copying a molecule fragment to make a molten zone for refinement. That is because this version quietly also copies the residues near the residues of the selection, so that those residues can be used for links and non-bonded contact restraints.
+        Use this in preference to `copy_fragment_using_cid` when copying a molecule fragment
 
         :param imol:  is the model molecule index 
 
@@ -2739,8 +2888,8 @@ class molecules_container_t:
         :param cid_ligand:  is the ligand selection CID e.g "//A/15" (ligand 15 of chain A) """
         pass
 
-    def get_overlaps(self, imol: int):
-        """ Get Atom Overlaps. 
+    def get_atom_overlaps(self, imol: int):
+        """ Get Atom Overlaps. This function used to be called get_overlaps()
 
         :param imol:  is the model molecule index 
 
@@ -2774,6 +2923,14 @@ class molecules_container_t:
 
         :return: a vector/list of `positioned_atom_spec_t` """
         pass
+
+    def get_pucker_analysis_info(self, imol: int) -> str:
+        """ get pucker info
+
+        :param imol:  is the model molecule index 
+
+        :return: a json string or an empty string on failure """
+        return 'a-string'
 
     def density_fit_analysis(self, imol_model: int, imol_map: int):
         """ Density fit validation information.
@@ -2941,8 +3098,30 @@ class molecules_container_t:
         :return: a list of spheres on the surface of the pore """
         pass
 
+    def get_mmrrcc(self, imol: int, chain_id: str, n_residue_per_residue_range: int, imol_map: int):
+        """ Calculate the MMRRCC for the residues in the chain
+
+        Multi Masked Residue Range Corellation Coefficient
+
+        :param imol:  is the model molecule index 
+
+        :param chain_id:  is the model chain_id 
+
+        :param n_residue_per_residue_range:  is the number of residues in the residue range. 11 is a reasonable number for a smooth plot 
+
+        :param imol_map:  is the map molecule index """
+        pass
+
     def mmrrcc(self, imol: int, chain_id: str, imol_map: int):
-        """         Sphinx-Doc-Placeholder"""
+        """ This is a wrapper for `n_residue_per_residue_range`.
+
+        Multi Masked Residue Range Corellation Coefficient
+
+        :param imol:  is the model molecule index 
+
+        :param chain_id:  is the model chain_id 
+
+        :param imol_map:  is the map molecule index """
         pass
 
 
@@ -3141,7 +3320,9 @@ class molecules_container_t:
         pass
 
     def fit_ligand_right_here(self, imol_protein: int, imol_map: int, imol_ligand: int, x: float, y: float, z: float, n_rmsd: float, use_conformers: bool, n_conformers: int):
-        """ Fit the ligand at specified position. You can expect this to take about 20 seconds. For trivial (i.e non-flexible) ligands you should instead use the jiggle-fit algorithm, which takes a fraction of a second. (That is the algorithm used for "Add Other Solvent Molecules" in Coot.)
+        """ Fit the ligand at specified position.
+
+        You can expect this to take about 20 seconds. For trivial (i.e non-flexible) ligands you should instead use the jiggle-fit algorithm, which takes a fraction of a second. (That is the algorithm used for "Add Other Solvent Molecules" in Coot.)
 
         :param imol_protein:  is the model molecule index 
 
@@ -3414,36 +3595,36 @@ class molecules_container_t:
         """ Function for Blender interface. """
         pass
 
+    def pyrogen_from_SMILES(self, smiles_string: str, compound_id: str) -> int:
+        """ make a dictionary and create a molecule
+
+        :param ccd_file_name:  the input SMILES string 
+
+        :param compound_id:  is the compound_id that should be assigned to the new dictionary and molecule 
+
+        :return: the new molecule index or -1 on failure """
+        return 0
+
+    def pyrogen_from_ccd_file(self, ccd_file_name: str) -> int:
+        """ make a dictionary and create a molecule
+
+        :param ccd_file_name:  the input cif file file-name 
+
+        :return: the new molecule index or -1 on failure """
+        return 0
+
+    def pyrogen_from_rdkit_mol_pickle_base64(self, rdkit_mol_pickled_string: str, compound_id: str) -> int:
+        """ this is the interface to use from the molecule sketcher (say) where the calling function has an RDKit Mol
+
+        :param rdkit_mol_pickled_string:  the rdkit mol as a picked string 
+
+        :param compound_id:  is the compound_id that should be assigned to the new dictionary and molecule 
+
+        :return: the new molecule index or -1 on failure """
+        return 0
+
     def test_function(self, s: str) -> None:
         """         Sphinx-Doc-Placeholder"""
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     def adjust_refinement_residue_name(self, resname: str) -> str:
         """ 
